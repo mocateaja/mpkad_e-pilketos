@@ -1,0 +1,87 @@
+Dibawah ini adalah kode sql untuk menghitung jumlah data yang memilih kandidat pada tabel "e-pilketos_candidates".total_votes
+
+-- Supabase AI is experimental and may produce incorrect answers
+-- Always verify the output before executing
+
+-- 1. Pastikan kolom total_votes ada di tabel e-pilketos_candidates (jika belum ada)
+ALTER TABLE "e-pilketos_candidates"
+ADD COLUMN IF NOT EXISTS total_votes bigint DEFAULT 0;
+
+-- 2. Membuat fungsi untuk menghitung total votes
+CREATE OR REPLACE FUNCTION update_candidate_votes() RETURNS TRIGGER AS $$
+BEGIN
+    -- Memperbarui total_votes di tabel e-pilketos_candidates
+    UPDATE "e-pilketos_candidates"
+    SET total_votes = (
+        SELECT COALESCE(SUM(CASE WHEN vote_one = "e-pilketos_candidates".id THEN 1 ELSE 0 END), 0) +
+               COALESCE(SUM(CASE WHEN vote_two = "e-pilketos_candidates".id THEN 1 ELSE 0 END), 0)
+        FROM "e-pilketos_users"
+    );
+    
+    RETURN NULL; -- karena ini adalah trigger AFTER
+END;
+$$ LANGUAGE plpgsql;
+
+-- 3. Membuat trigger yang akan dijalankan setiap kali ada perubahan di tabel e-pilketos_voting_blocks
+CREATE OR REPLACE TRIGGER update_votes_trigger
+AFTER INSERT OR UPDATE OR DELETE ON "e-pilketos_voting_blocks"
+FOR EACH STATEMENT
+EXECUTE FUNCTION update_candidate_votes();
+
+-- 4. Memperbarui total_votes untuk data yang sudah ada
+UPDATE "e-pilketos_candidates" c
+SET total_votes = (
+    SELECT COALESCE(SUM(CASE WHEN vote_one = c.id THEN 1 ELSE 0 END), 0) +
+           COALESCE(SUM(CASE WHEN vote_two = c.id THEN 1 ELSE 0 END), 0)
+    FROM "e-pilketos_voting_blocks"
+);
+
+// Catatan lain
+
+UPDATE "e-pilketos_token" t
+SET used_status = u.vote_status
+FROM "e-pilketos_users" u
+WHERE t.nis = u.nis;
+
+// Membuat tabel whitelist ipaddress sekaligus dengan fungsi serta tiggernya
+
+-- 1. Buat tabel dengan kolom "id", "other_column", dan "ipaddress"
+CREATE TABLE "e-pilketos_whitelist" (
+    "id" INTEGER PRIMARY KEY,
+    "ipaddress" TEXT
+);
+
+-- 2. Buat fungsi trigger untuk mengatur dan memperbarui ID
+CREATE OR REPLACE FUNCTION set_and_update_ids() 
+RETURNS TRIGGER AS $$
+DECLARE
+    new_id INTEGER;
+BEGIN
+    -- Set the id for the new row based on the current max id
+    SELECT COALESCE(MAX("id"), 0) + 1 INTO new_id FROM "e-pilketos_whitelist";
+    NEW."id" := new_id;
+
+    -- Update IDs for all rows
+    UPDATE "e-pilketos_whitelist"
+    SET "id" = sub.new_id
+    FROM (
+        SELECT "id" AS old_id, ROW_NUMBER() OVER (ORDER BY "id") AS new_id
+        FROM "e-pilketos_whitelist"
+    ) AS sub
+    WHERE "e-pilketos_whitelist"."id" = sub.old_id;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 3. Buat trigger untuk menetapkan ID pada saat insert
+CREATE TRIGGER set_and_update_ids_trigger
+BEFORE INSERT ON "e-pilketos_whitelist"
+FOR EACH ROW
+EXECUTE FUNCTION set_and_update_ids();
+
+-- 4. Buat trigger untuk memperbarui ID setelah delete
+CREATE TRIGGER update_ids_after_delete_trigger
+AFTER DELETE ON "e-pilketos_whitelist"
+FOR EACH STATEMENT
+EXECUTE FUNCTION set_and_update_ids();
