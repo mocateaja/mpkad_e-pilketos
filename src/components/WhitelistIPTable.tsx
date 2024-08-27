@@ -129,7 +129,7 @@ const WhitelistIPTable: React.FC = () => {
         </ModalContent>
       </Modal>
       <AlertDialog
-        motionPreset='slideInBottom'
+        motionPreset='slideInTop'
         onClose={onCloseDeleteModal}
         leastDestructiveRef={cancelRef}
         isOpen={isOpenDeleteModal}
@@ -145,10 +145,10 @@ const WhitelistIPTable: React.FC = () => {
           </AlertDialogBody>
           <AlertDialogFooter>
             <Button className={`${font.primary}`} onClick={onCloseDeleteModal}>
-              No
+              Tidak
             </Button>
             <Button className={`${font.primary}`} onClick={deleteIP} colorScheme='red' ml={3}>
-              Yes
+              Ya
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -8,6 +8,7 @@ import { Timer } from "@/utils";
 import { useState } from "react"
 import { useRouter } from "next/navigation";
 import MenuNavigation from "@/components/MenuNavigation"
+import { motion } from "framer-motion"
 
 import { 
   Button,
@@ -62,22 +63,54 @@ export default function Home() {
       <div className="md:hidden flex min-h-screen w-screen max-w-screen overflow-x-hidden bg-secondary flex-col items-center justify-center p-24">
         <div className={`${font.primary} w-auto bg-green-500 h-full flex flex-col justify-center items-center -mt-20 md:-mt-0`}>
           <div className="flex flex-col justify-center items-center">
-            <Image height={0} width={0} src={asset_one} alt="" className="absolute md:scale-110 -ml-2"/>
+            <motion.div
+              initial={{ y: 50, opacity: 0 }} 
+              animate={{ y: 0, opacity: 100 }} 
+              transition={{ duration: 0.8 }}
+              className="absolute"
+            >  
+              <Image height={0} width={0} src={asset_one} alt="" className="md:scale-110 -ml-2"/>
+            </motion.div>
             <div className="absolute h-72">
-              <h3 className="text-center text-lg flex justify-center h-auto md:-mt-[26%] text-white">MPK ADHYASTA BARAKUGA</h3>
-              <h1 className={`${font.secondary} hidden md:flex text-center text-5xl h-auto text-white`}>SMANJI E-PILEKTOS</h1>
-              <h1 className={`${font.secondary} flex md:hidden text-center text-[2rem] w-auto h-auto text-white`}>SMANJI E-PILEKTOS</h1>
+              <motion.h3
+                initial={{ y: 50, opacity: 0 }} 
+                animate={{ y: 0, opacity: 100 }} 
+                transition={{ duration: 0.8 }}
+                className="text-center text-lg flex justify-center h-auto md:-mt-[26%] text-white">MPK ADHYASTA BARAKUGA</motion.h3>
+              <motion.h1
+                initial={{ y: 50, opacity: 0 }} 
+                animate={{ y: 0, opacity: 100 }} 
+                transition={{ duration: 0.8 }}
+                className={`${font.secondary} hidden md:flex text-center text-5xl h-auto text-white`}>SMANJI E-PILEKTOS</motion.h1>
+              <motion.h1
+                initial={{ y: 50, opacity: 0 }} 
+                animate={{ y: 0, opacity: 100 }} 
+                transition={{ duration: 0.8 }}
+                className={`${font.secondary} flex md:hidden text-center text-[2rem] w-auto h-auto text-white`}>SMANJI E-PILEKTOS</motion.h1>
             </div>
           </div>
           <div className="flex flex-col justify-center items-center">
-            <Image height={0} width={0} src={asset_two} alt="" className="absolute md:scale-110 -ml-2"/>
+            <motion.div
+              initial={{ y: 50, opacity: 0 }} 
+              animate={{ y: 0, opacity: 100 }} 
+              transition={{ duration: 0.8 }}
+              className="absolute"
+            >  
+              <Image height={0} width={0} src={asset_two} alt="" className="md:scale-110 -ml-2"/>
+            </motion.div>
           </div>
           <div className="absolute w-screen h-screen flex items-end justify-center">
             <div className="flex justify-center w-full bg-gradient-to-b from-transparent via-secondary to-secondary h-4/6">
               <div className="flex items-center justify-center mt-10">
-                <button onClick={openedStatus ? redirect : onOpen} className="bg-white h-auto py-1 px-20 text-lg flex items-center justify-center rounded-xl outline outline-2 outline-white outline-offset-4">
-                  VOTE NOW
-                </button>
+                <motion.div
+                  initial={{ opacity: 0 }} 
+                  animate={{ opacity: 100 }} 
+                  transition={{ duration: 0.8 }}
+                >
+                  <button onClick={openedStatus ? redirect : onOpen} className="bg-white h-auto py-1 px-24 text-lg flex items-center justify-center rounded-xl outline outline-2 outline-white outline-offset-4">
+                    VOTE NOW
+                  </button>
+                </motion.div>
               </div>
             </div>
           </div>

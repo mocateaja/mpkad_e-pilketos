@@ -51,6 +51,11 @@ export default function PilketosPage() {
 		setNisClient(nis)
 		setTokenIdClient(token_id)
 	}
+
+	async function reFetch() {
+		const candidatesData = await getCandidatesData()
+		setCandidatesData(candidatesData)
+	}
 	
 	useEffect(() => {
 		let fetchStatus = false;
@@ -60,6 +65,9 @@ export default function PilketosPage() {
 				fetchStatus = true
 				const candidatesData = await getCandidatesData()
 				setCandidatesData(candidatesData)
+				if (candidatesData.length < 0) {
+					await reFetch()
+				}
 				/* alert(JSON.stringify(candidatesData)) */
 			})()
 		}
@@ -76,7 +84,6 @@ export default function PilketosPage() {
 					onLoginResultData={handleLoginResultdData}
 				/>
 				<MenuNavigation title="Pencoblosan" />
-				<div className="w-full h-48" />
 				<CandidatePage nis={nisClient} token_id={tokenIdClient!} candidatesData={candidatesData}/>
 			</div>
 			<div className={`${font.primary} hidden md:flex p-6 h-screen text-center justify-center`}>
