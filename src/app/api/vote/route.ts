@@ -11,13 +11,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
   try {
     const { data } = await req.json()
     const decrypted = await decrypt(data, SECRET_TOKEN!)
-    const loginResult = await vote({ 
-        nis: decrypted,
-        vote_one: decrypted,
-        vote_two: decrypted,
-        token_id: decrypted
+    const voteResult = await vote({ 
+        nis: decrypted.nis,
+        vote_one: decrypted.vote_one,
+        vote_two: decrypted.vote_two,
+        token_id: decrypted.token_id
     })
-    return NextResponse.json({ data: loginResult }, {status:200}) 
+    return NextResponse.json({ data: voteResult }, {status:200}) 
   } catch (error) {
     console.error('Terjadi kesalahan:', error); 
     //

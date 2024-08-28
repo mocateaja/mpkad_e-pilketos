@@ -17,6 +17,7 @@ import {
 	useDisclosure
 } from "@chakra-ui/react";
 import { clientVoting } from '@/utils';
+import LoadingAnimation from './LoadingAnimation';
 
 type CandidateData = {
 	id: number,
@@ -41,6 +42,9 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 	const [mitramuda, setMitramuda] = useState<number>(0)
 	const [reviewCandidate, setReviewCandidate] = useState<number>(1)
 	const { isOpen, onOpen, onClose } = useDisclosure()
+	const [saveDataStatus, setSaveDataStatus] = useState(false)
+	const [error, setError] = useState<string>("");
+	const [voteStatus, setVoteStatus] = useState<boolean>(false)
 	const cancelRef = useRef(null)
 
   const scrollToTop = () => {
@@ -55,10 +59,25 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 	function sortCandidatesById(candidates: CandidateData[]): CandidateData[] {
 		return candidates.sort((a, b) => a.id - b.id);
 	}
+	
+	const vote = async() => {
+		setError("")
+		if (mitratama === 0 || mitramuda === 0) {
+			setError("Silahkan pilih kandidat terlebih dahulu!")
+		} else {
+			const voteResult = await clientVoting(nis, mitratama, mitramuda, token_id)
+			if (voteResult === "request failed!") {
+				setError("Gagal mengirim permintaan!")
+			} else if (voteResult === "request success!") {
+				setVoteStatus(true)
+			}
+		}
+	}
 
-	const saveCandidatesData = () => {
-		const sortedCandidates = sortCandidatesById(candidatesData);
+	const saveCandidatesData = async() => {
+		const sortedCandidates = await sortCandidatesById(candidatesData);
 		setCandidateData(sortedCandidates)
+		setSaveDataStatus(true)
 	}
 
 	const example = [Sakti,Listi]
@@ -66,7 +85,7 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 
 	useEffect(() => {
 		saveCandidatesData()
-	})
+	}, [candidatesData])
 
 	const CandidatesComponent = ({ request }:{ request: string }) => {
 		switch (request) {
@@ -125,7 +144,6 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 						</p>
 					</motion.div>
 				)
-				break;
 			default:
 				break;
 		}
@@ -133,6 +151,15 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 
   return (
     <div className={`${font.primary} flex flex-col min-h-screen min-w-screen h-full items-center justify-start text-white`}>
+			{!saveDataStatus ? (
+				<motion.div
+					initial={{ opacity: 0, zIndex: 0 }} 
+					animate={{ opacity: 100, zIndex: 40 }} 
+					transition={{ ease: "easeInOut", duration: 0.6 }}
+				>
+					<LoadingAnimation />
+				</motion.div>
+				) : ""}
 			{!voteSection ? (
 				<div className="w-full h-full flex flex-col justify-center items-start">
 					<div className="w-full h-48" />
@@ -355,12 +382,14 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 						-	{candidateData[mitratama-1] && candidateData[mitratama-1].name}
 						<br/>
 						- {candidateData[mitramuda-1] && candidateData[mitramuda-1].name}
+						<br/>
+						<p className="text-red-500 text-left w-full">{error}</p>
           </AlertDialogBody>
           <AlertDialogFooter>
             <Button className={`${font.primary}`} onClick={onClose}>
               Tidak
             </Button>
-            <Button className={`${font.primary}`} colorScheme='blue' ml={3}>
+            <Button className={`${font.primary}`} onClick={vote} colorScheme='blue' ml={3}>
               Ya
             </Button>
           </AlertDialogFooter>

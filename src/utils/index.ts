@@ -4,6 +4,56 @@ const ADMIN = process.env.NEXT_PUBLIC_ADMIN
 const ADMINPW = process.env.NEXT_PUBLIC_ADMINPW
 
 //////////////////////////////////////////////////////////////////
+// Special function
+
+class LocalStorage {
+  private isClient: boolean;
+
+  constructor() {
+    this.isClient = typeof window !== 'undefined';
+  }
+
+  set<T>(key: string, value: T): void {
+    if (this.isClient) {
+      try {
+        const serializedValue = JSON.stringify(value);
+        window.localStorage.setItem(key, serializedValue);
+      } catch (error) {
+        console.error('Error saving to localStorage:', error);
+      }
+    }
+  }
+
+  get<T>(key: string): T | null {
+    if (this.isClient) {
+      try {
+        const serializedValue = window.localStorage.getItem(key);
+        if (serializedValue === null) {
+          return null;
+        }
+        return JSON.parse(serializedValue) as T;
+      } catch (error) {
+        console.error('Error reading from localStorage:', error);
+        return null;
+      }
+    }
+    return null;
+  }
+
+  remove(key: string): void {
+    if (this.isClient) {
+      try {
+        window.localStorage.removeItem(key);
+      } catch (error) {
+        console.error('Error removing from localStorage:', error);
+      }
+    }
+  }
+}
+
+export const localStorage = new LocalStorage()
+
+//////////////////////////////////////////////////////////////////
 // Unused function
 
 /* 
@@ -18,6 +68,21 @@ const ADMINPW = process.env.NEXT_PUBLIC_ADMINPW
 
 //////////////////////////////////////////////////////////////////
 // All function components that work with REST API
+
+export async function getIPAddress() {
+  try {
+    const response = await fetch("/api/get_ip", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const result = await response.json()
+    return result.ip
+  } catch (error) {
+    console.log(error) // If the development is done let's replace this line of code
+  }
+}
 
 export async function getUsersData(key: string) {
   const data = {
@@ -142,7 +207,7 @@ export const clientVoting = async(nis: string, vote_one: number, vote_two: numbe
   }
   try {
     const response = await fetch("/api/vote", {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
@@ -174,8 +239,7 @@ export const clientLogin = async(nis: string, token: string) => {
       body: JSON.stringify(encryptedClientData)
     })
     const result = await response.json()
-    const decrypted = await decrypt(result.data, SECRET_TOKEN!)
-    return decrypted
+    return result.data
   } catch (error) {
     console.log(error) // If the development is done let's replace this line of code
   }

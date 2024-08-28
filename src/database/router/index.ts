@@ -143,8 +143,8 @@ async function insertVotingBlock({
   try {
     await sql`
         INSERT INTO "e-pilketos_voting_blocks" (nis, user_id, vote_one, vote_two, token_id, timestamp)
-        VALUES ('${nis}', '${userId}', '${vote_one}', '${vote_two}', '${token_id}', '${timestamp}')
-        ON CONFLICT (userId) DO NOTHING;
+        VALUES (${nis}, ${userId}, ${vote_one}, ${vote_two}, ${token_id}, ${timestamp})
+        ON CONFLICT (user_id) DO NOTHING;
         `;
   } catch (error) {
     console.error(error);
@@ -166,6 +166,7 @@ export async function vote({
     CryptoJS.enc.Base64
   );
   try {
+    console.log(getTimestamp())
     await insertVotingBlock({
       nis: nis,
       userId: userId,
@@ -176,8 +177,8 @@ export async function vote({
     });
     await sql`
         UPDATE "e-pilketos_users" 
-        SET vote_status = 'true', vote_one = '${vote_one}', vote_two: '${vote_two}'
-        WHERE nis = '${nis}'
+        SET vote_status = true, vote_one = ${vote_one}, vote_two = ${vote_two}
+        WHERE nis = ${nis}
         `;
     await sql`
         UPDATE "e-pilketos_token" t
