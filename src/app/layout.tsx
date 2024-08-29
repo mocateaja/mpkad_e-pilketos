@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Favicon from '@/app/favicon.ico'
 import "./globals.css";
 import { Providers } from "@/app/Providers"
-import Shield from "@/components/Shield"
 
 export const metadata: Metadata = {
   title: "SMANJI E-PILKETOS",
@@ -19,7 +18,6 @@ export default function RootLayout({
     <html lang="id">
       <body className="w-full h-full max-w-screen overflow-x-hidden flex justify-center items-center bg-secondary">
         <Providers>
-          
           {children}
         </Providers>
       </body>

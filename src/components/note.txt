@@ -1,0 +1,71 @@
+Junk Code
+
+"use client"
+
+import { useEffect, useState } from "react"
+import { getIPAddress, whiteList } from "@/utils"
+import { useRouter } from "next/navigation"
+import font from '@/utils/Font';
+
+interface IPAddress {
+  id: number;
+  ipaddress: string;
+}
+
+const Shield = () => {
+  const [secureStatus, setSecureStatus] = useState<boolean>(false)
+  const [ipAddress, setIpAddress] = useState<string | null>(null)
+  const [whiteListIP, setWhiteListIP] = useState<IPAddress[]>([])
+  const [getWhiteListStatus, setGetWhiteListStatus] = useState<boolean>(false)
+  const router = useRouter()
+
+  function arrayIncludes(array: IPAddress[], ipToFind: string): boolean {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].ipaddress === ipToFind) {
+            return true;
+        }
+    }
+    return false;
+  }
+
+  function secure(ip: string) {
+    const checkResult = arrayIncludes(whiteListIP, ip)
+    setSecureStatus(checkResult)
+  }
+
+  useEffect(() => {
+    (async()=>{
+      if (!ipAddress || ipAddress === null) {
+        const ip = await getIPAddress()
+        setIpAddress(ip)
+      }
+      if (ipAddress !== null) {
+        const whiteListIPAddress = await whiteList.get();
+        setWhiteListIP(whiteListIPAddress)
+        secure(ipAddress!)
+        setGetWhiteListStatus(true)
+      }
+    })()
+    if (getWhiteListStatus && !secureStatus) {
+      router.push("/blocked")
+    }
+  }, [ipAddress, getWhiteListStatus])
+  return(
+    secureStatus === false ? (
+      <div className={`${font.primary} absolute flex p-6 min-h-screen h-full w-screen bg-primary top-0 text-center justify-center z-[151]`}>
+        <div className="">
+          <h1 className="text-2xl text-white w-auto">
+            Anda tidak mempunyai hak untuk mengakses website ini!
+          </h1>
+          <p className="text-white w-auto mt-4">
+            Note: silahkan datang ke tempat pencoblosan untuk dapat mengakses website ini
+          </p>
+        </div>
+      </div>
+    ) : (
+     null
+    )
+  )
+}
+
+export default Shield

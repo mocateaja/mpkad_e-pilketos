@@ -30,7 +30,7 @@ type CandidateData = {
 
 export default function PilketosPage() {
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const [loginStatus, setLoginStatus] = useState<boolean>(true); // Jangan lupa untuk mengembalikan nilai asli berupa false
+	const [loginStatus, setLoginStatus] = useState<boolean>(false); // Jangan lupa untuk mengembalikan nilai asli berupa false
 	const [clientData, setClientData] = useState<ClientData[]>()
 	const [nisClient, setNisClient] = useState<string>("")
 	const [tokenIdClient, setTokenIdClient] = useState<number>()
@@ -60,7 +60,7 @@ export default function PilketosPage() {
 	useEffect(() => {
 		let fetchStatus = false;
 		loginStatus ? null : onOpen();
-		if (fetchStatus === false) {
+		if (!fetchStatus) {
 			(async()=>{
 				fetchStatus = true
 				const candidatesData = await getCandidatesData()

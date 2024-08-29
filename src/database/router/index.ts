@@ -206,3 +206,17 @@ export async function getCandidatesData() {
     console.error(error);
   }
 }
+
+export async function getCandidatesRecaptulation() {
+  try {
+    const result = await sql`
+        SELECT 
+            "e-pilketos_candidates".id, "e-pilketos_candidates".name, "e-pilketos_candidates".position, "e-pilketos_candidates".total_votes
+        FROM
+            "e-pilketos_candidates"
+        `;
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+}

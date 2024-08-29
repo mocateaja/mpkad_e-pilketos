@@ -193,6 +193,18 @@ export const getCandidatesData = async() => {
     console.log(error) // If the development is done let's replace this line of code
   }
 }
+export const getCandidatesRecaptulation = async() => {
+  try {
+    const response = await fetch("/api/get_data", {
+      method: "GET"
+    })
+    const result = await response.json()
+    const decrypted = await decrypt(result.data, SECRET_TOKEN!)
+    return decrypted
+  } catch (error) {
+    console.log(error) // If the development is done let's replace this line of code
+  }
+}
 
 export const clientVoting = async(nis: string, vote_one: number, vote_two: number, token_id: number) => {
   const clientVoteData = {

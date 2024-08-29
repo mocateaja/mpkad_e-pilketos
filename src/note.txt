@@ -1,3 +1,5 @@
+Junk Code
+
 import { NextRequest, NextResponse } from 'next/server';
 
 // Daftar origin yang diizinkan

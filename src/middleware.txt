@@ -1,0 +1,47 @@
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { getIPAddress, whiteList } from "@/utils"
+
+export async function middleware(request: NextRequest) {
+  // Mendapatkan IP address dari request
+  const ip = request.ip || await getIPAddress()
+
+  if (!ip) {
+    // Jika tidak bisa mendapatkan IP, redirect ke halaman blocked
+    return NextResponse.redirect(new URL('/blocked', request.url))
+  }
+
+  // Mendapatkan whitelist IP
+  const whiteListIPAddress = await whiteList.get()
+
+  // Fungsi untuk mengecek apakah IP ada dalam whitelist
+  function isIPWhitelisted(array: { ipaddress: string }[], ipToFind: string): boolean {
+    return array.some(item => item.ipaddress === ipToFind)
+  }
+
+  // Cek apakah IP ada dalam whitelist
+  const isAllowed = isIPWhitelisted(whiteListIPAddress, ip)
+
+  if (!isAllowed) {
+    // Jika IP tidak ada dalam whitelist, redirect ke halaman blocked
+    return NextResponse.redirect(new URL('/blocked', request.url))
+  }
+
+  // Jika IP diizinkan, lanjutkan ke request berikutnya
+  return NextResponse.next()
+}
+
+// Konfigurasi pada rute mana middleware ini akan dijalankan
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - blocked (halaman blocked)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico|blocked).*)',
+  ],
+}
