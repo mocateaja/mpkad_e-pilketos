@@ -195,7 +195,7 @@ export const getCandidatesData = async() => {
 }
 export const getCandidatesRecaptulation = async() => {
   try {
-    const response = await fetch("/api/get_data", {
+    const response = await fetch("/api/get_recapitulation_data", {
       method: "GET"
     })
     const result = await response.json()
@@ -251,7 +251,8 @@ export const clientLogin = async(nis: string, token: string) => {
       body: JSON.stringify(encryptedClientData)
     })
     const result = await response.json()
-    return result.data
+    const result_data = await decrypt(result.data, SECRET_TOKEN!)
+    return result_data
   } catch (error) {
     console.log(error) // If the development is done let's replace this line of code
   }

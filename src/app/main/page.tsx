@@ -30,7 +30,7 @@ type CandidateData = {
 
 export default function PilketosPage() {
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const [loginStatus, setLoginStatus] = useState<boolean>(false); // Jangan lupa untuk mengembalikan nilai asli berupa false
+	const [loginStatus, setLoginStatus] = useState<boolean>(false); // default false
 	const [clientData, setClientData] = useState<ClientData[]>()
 	const [nisClient, setNisClient] = useState<string>("")
 	const [tokenIdClient, setTokenIdClient] = useState<number>()

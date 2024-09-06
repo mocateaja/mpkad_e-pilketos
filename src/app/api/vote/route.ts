@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt } from "../../../utils";
+import { encrypt, decrypt } from "../../../utils";
 import { SECRET_TOKEN } from "../../../utils";
 import { vote } from "@/database/router";
 
@@ -17,7 +17,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
         vote_two: decrypted.vote_two,
         token_id: decrypted.token_id
     })
-    return NextResponse.json({ data: voteResult }, {status:200}) 
+    const encryptedData = await encrypt(voteResult, SECRET_TOKEN!)
+    return NextResponse.json({ data: encryptedData }, {status:200}) 
   } catch (error) {
     console.error('Terjadi kesalahan:', error); 
     //

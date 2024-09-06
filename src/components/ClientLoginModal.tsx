@@ -52,17 +52,18 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
 		setError("");
     const loginResult: ClientData[] = await clientLogin(nisInputValue, tokenInputValue);
     
-    if (loginResult) {
+    if (typeof loginResult !== "string") {
       if (loginResult.length > 0) {
 				const d = loginResult[0]
-				onLoginResultData(d.id,d.nis,d.name,d.class,d.vote_status,d.token_id)
-				setNisInputValue("");
-				setTokenInputValue("");
-				onClose();
 				if (d.vote_status === true) {
 					onLoginResult(false);
 					setError("Akun ini sudah digunakan untuk mencoblos!")
-				}
+				} else {
+          onLoginResultData(d.id,d.nis,d.name,d.class,d.vote_status,d.token_id)
+          onClose();
+        }
+				setNisInputValue("");
+				setTokenInputValue("");
 			} else {
 				onLoginResult(false);
 				setError("Nama Admin atau Password salah!");

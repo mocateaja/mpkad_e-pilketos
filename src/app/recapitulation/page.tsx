@@ -1,0 +1,21 @@
+"use client"
+
+import MenuNavigation from "@/components/MenuNavigation"
+import Footer from "@/components/Footer";
+import font from '@/utils/Font';
+import RecapitulationCharts from "@/components/RecapitulationCharts";
+
+export default function RecapitulationPage() {
+  return(
+		<main className="block overflow-x-hidden">
+			<MenuNavigation title="Pencoblosan" />
+			<div className="flex justify-center w-screen">
+				<div className={`${font.primary} flex flex-col min-h-screen w-full max-w-1/2 h-full justify-center items-center text-white`}>
+					<h1 className="text-5xl font-bold p-12 w-full flex justify-center text-center">Rekapitulasi Pemilihan</h1>
+					<RecapitulationCharts />
+        </div>
+			</div>
+			<Footer/>
+		</main>
+  )
+}

@@ -3,6 +3,7 @@ import Image from "next/image"
 import Sakti from "@/asset/image/example.png"
 import Listi from "@/asset/image/example2.png"
 import font from '@/utils/Font';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { motion } from "framer-motion"
 import { 
@@ -18,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { clientVoting } from '@/utils';
 import LoadingAnimation from './LoadingAnimation';
+import { HiCheckCircle } from "react-icons/hi2";
 
 type CandidateData = {
 	id: number,
@@ -36,7 +38,8 @@ interface CandidatePageProps {
 }
 
 const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidatesData }) => {
-	const [voteSection, setVoteSection] = useState<boolean>(false)
+	const router = useRouter()
+	const [voteSection, setVoteSection] = useState<boolean>(false) // default false
 	const [candidateData, setCandidateData] = useState<CandidateData[]>([])
 	const [mitratama, setMitratama] = useState<number>(0)
 	const [mitramuda, setMitramuda] = useState<number>(0)
@@ -66,10 +69,15 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 			setError("Silahkan pilih kandidat terlebih dahulu!")
 		} else {
 			const voteResult = await clientVoting(nis, mitratama, mitramuda, token_id)
-			if (voteResult === "request failed!") {
+			alert(voteResult)
+			if (voteResult == "request failed!") {
 				setError("Gagal mengirim permintaan!")
-			} else if (voteResult === "request success!") {
+			} else if (voteResult == "request success!") {
 				setVoteStatus(true)
+				onClose()
+				setTimeout(() => {
+					router.push("/")
+				}, 10000)
 			}
 		}
 	}
@@ -184,24 +192,24 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 							transition={{ ease: "easeInOut", duration: 0.6 }}
 						 	className="absolute flex flex-row w-screen h-auto -mt-20 z-30">
 							<div className="grow flex justify-center flex-row gap-x-2">
-								<div onClick={() => setReviewCandidate(1)} className="w-12 h-12 bg-quatenary shadow-md rounded-full flex justify-center items-center select-none">
+								<div onClick={() => setReviewCandidate(1)} className="w-12 h-12 cursor-pointer bg-quatenary shadow-md rounded-full flex justify-center items-center select-none">
 									<p>1</p>
 								</div>
-								<div onClick={() => setReviewCandidate(2)} className="w-12 h-12 bg-quatenary shadow-md rounded-full flex justify-center items-center mt-4 select-none">
+								<div onClick={() => setReviewCandidate(2)} className="w-12 h-12 cursor-pointer bg-quatenary shadow-md rounded-full flex justify-center items-center mt-4 select-none">
 									<p>2</p>
 								</div>
-								<div onClick={() => setReviewCandidate(3)} className="w-12 h-12 bg-quatenary shadow-md rounded-full flex justify-center items-center mt-6 select-none">
+								<div onClick={() => setReviewCandidate(3)} className="w-12 h-12 cursor-pointer bg-quatenary shadow-md rounded-full flex justify-center items-center mt-6 select-none">
 									<p>3</p>
 								</div>
 							</div>
 							<div className="grow flex justify-center flex-row gap-x-2">
-								<div onClick={() => setReviewCandidate(4)} className="w-12 h-12 bg-quatenary shadow-md rounded-full flex justify-center items-center mt-6 select-none">
+								<div onClick={() => setReviewCandidate(4)} className="w-12 h-12 cursor-pointer bg-quatenary shadow-md rounded-full flex justify-center items-center mt-6 select-none">
 									<p>1</p>
 								</div>
-								<div onClick={() => setReviewCandidate(5)} className="w-12 h-12 bg-quatenary shadow-md rounded-full flex justify-center items-center mt-4 select-none">
+								<div onClick={() => setReviewCandidate(5)} className="w-12 h-12 cursor-pointer bg-quatenary shadow-md rounded-full flex justify-center items-center mt-4 select-none">
 									<p>2</p>
 								</div>
-								<div onClick={() => setReviewCandidate(6)} className="w-12 h-12 bg-quatenary shadow-md rounded-full flex justify-center items-center select-none">
+								<div onClick={() => setReviewCandidate(6)} className="w-12 h-12 cursor-pointer bg-quatenary shadow-md rounded-full flex justify-center items-center select-none">
 									<p>3</p>
 								</div>
 							</div>
@@ -356,7 +364,7 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 								<Button bg={"white"} onClick={() => {setVoteSection(false); scrollToTop()}}>
 									Kembali
 								</Button>
-								<Button bg={"white"} onClick={onOpen}>
+								<Button bg={"white"} onClick={onOpen} disabled={voteStatus}>
 									Submit
 								</Button>
 							</div>
@@ -395,6 +403,17 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+			{voteStatus ? (
+				<motion.div
+					initial={{ y: -500, opacity: 0 }} 
+					animate={{ y: 0, opacity: 100 }} 
+					transition={{ ease: "anticipate", duration: 0.8, delay: 0 }}
+					className="w-56 h-auto flex items-center flex-col z-50 mt-10 p-3 bg-[rgba(255,255,255,0.8)] backdrop-blur-sm absolute top-0 rounded-lg shadow-lg"
+				>
+					<HiCheckCircle className="w-24 h-24 text-lime-600"/>
+					<h2 className="text-black">Berhasil Memilih!</h2>
+				</motion.div>
+			) : null}
     </div>
   );
 };
