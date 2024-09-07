@@ -13,7 +13,7 @@ const RecapitulationCharts = () => {
   const [candidates, setCandidates] = useState<CandidateData[]>([])
   const [chart, setChart] = useState<ApexCharts | null>(null)
 
-  const options: ApexCharts.ApexOptions = {
+  const options: ApexCharts.ApexOptions | any = {
     series: candidates.map(c => c.total_votes),
     chart: {
       width: 800,
@@ -38,7 +38,6 @@ const RecapitulationCharts = () => {
       fontSize: "20rem",
       offsetX: -30,
       markers: {
-        size: 10,
         shape: undefined,
         strokeWidth: 1,
         fillColors: undefined,
@@ -46,6 +45,7 @@ const RecapitulationCharts = () => {
         onClick: undefined,
         offsetX: -10,
         offsetY: 0,
+        size: 10,
       },
     },
     tooltip: {
@@ -101,7 +101,7 @@ const RecapitulationCharts = () => {
           width: 400,
           fontSize: "16rem",
           offsetX: 70,
-          offsetY: 20,
+          offsetY: 0,
           markers: {
             size: 6,
             shape: undefined,
@@ -154,7 +154,7 @@ const RecapitulationCharts = () => {
             width: 400,
             fontSize: "16rem",
             offsetX: 50,
-            offsetY: 20,
+            offsetY: 0,
             markers: {
               size: 6,
               shape: undefined,
