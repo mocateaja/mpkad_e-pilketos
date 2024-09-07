@@ -1,3 +1,5 @@
+"use client"
+
 import ApexCharts from "apexcharts"
 import { useEffect, useState } from "react";
 import { getCandidatesRecaptulation } from "@/utils"
@@ -211,6 +213,7 @@ const RecapitulationCharts = () => {
     if (candidates.length > 0) {
       renderChart();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [candidates])
 
   const DigitalRecapitulation = () => (
