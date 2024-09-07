@@ -1,19 +1,18 @@
-"use client"
+"use client";
 
-import ApexCharts from "apexcharts";
-import { useEffect, useState } from "react";
-import { getCandidatesRecaptulation } from "@/utils";
+import { useEffect, useState } from 'react';
+import { getCandidatesRecaptulation } from '@/utils';
 
 type CandidateData = {
-  id: number,
-  name: string,
-  position: string,
-  total_votes: number
+  id: number;
+  name: string;
+  position: string;
+  total_votes: number;
 };
 
 const RecapitulationCharts = () => {
   const [candidates, setCandidates] = useState<CandidateData[]>([]);
-  const [chart, setChart] = useState<ApexCharts | null>(null);
+  const [chart, setChart] = useState<any>(null);
 
   const options: ApexCharts.ApexOptions | any = {
     series: candidates.map(c => c.total_votes),
@@ -40,14 +39,9 @@ const RecapitulationCharts = () => {
       fontSize: "20rem",
       offsetX: -30,
       markers: {
-        shape: undefined,
-        strokeWidth: 1,
-        fillColors: undefined,
-        customHTML: undefined,
-        onClick: undefined,
-        offsetX: -10,
-        offsetY: 0,
         size: 10,
+        shape: 'circle',
+        strokeWidth: 1
       },
     },
     tooltip: {
@@ -121,15 +115,20 @@ const RecapitulationCharts = () => {
 
   useEffect(() => {
     if (candidates.length > 0) {
-      if (typeof window !== 'undefined') {
-        if (chart) {
-          chart.updateOptions(options);
-        } else {
-          const newChart = new ApexCharts(document.querySelector("#chart"), options);
-          setChart(newChart);
-          newChart.render();
+      const loadApexCharts = async () => {
+        if (typeof window !== 'undefined') {
+          const ApexCharts = (await import('apexcharts')).default;
+          if (chart) {
+            chart.updateOptions(options);
+          } else {
+            const newChart = new ApexCharts(document.querySelector("#chart"), options);
+            setChart(newChart);
+            newChart.render();
+          }
         }
-      }
+      };
+
+      loadApexCharts();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [candidates]);
