@@ -185,7 +185,6 @@ const RecapitulationCharts = () => {
   };
 
   const renderChart = () => {
-    i
     if (chart) {
       chart.updateOptions(options);
     } else {
