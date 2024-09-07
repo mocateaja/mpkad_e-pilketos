@@ -50,9 +50,9 @@ class LocalStorage {
     }
   }
 }
- */
-export const localStorage = new LocalStorage()
 
+export const localStorage = new LocalStorage()
+ */
 //////////////////////////////////////////////////////////////////
 // Unused function
 
