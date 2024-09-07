@@ -5,7 +5,7 @@ const ADMINPW = process.env.NEXT_PUBLIC_ADMINPW
 
 //////////////////////////////////////////////////////////////////
 // Special function
-/* 
+
 class LocalStorage {
   private isClient: boolean;
 
@@ -52,7 +52,7 @@ class LocalStorage {
 }
 
 export const localStorage = new LocalStorage()
- */
+
 //////////////////////////////////////////////////////////////////
 // Unused function
 

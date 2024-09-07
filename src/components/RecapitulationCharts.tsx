@@ -1,19 +1,19 @@
 "use client"
 
-import ApexCharts from "apexcharts"
+import ApexCharts from "apexcharts";
 import { useEffect, useState } from "react";
-import { getCandidatesRecaptulation } from "@/utils"
+import { getCandidatesRecaptulation } from "@/utils";
 
 type CandidateData = {
   id: number,
   name: string,
   position: string,
   total_votes: number
-}
+};
 
 const RecapitulationCharts = () => {
-  const [candidates, setCandidates] = useState<CandidateData[]>([])
-  const [chart, setChart] = useState<ApexCharts | null>(null)
+  const [candidates, setCandidates] = useState<CandidateData[]>([]);
+  const [chart, setChart] = useState<ApexCharts | null>(null);
 
   const options: ApexCharts.ApexOptions | any = {
     series: candidates.map(c => c.total_votes),
@@ -52,15 +52,11 @@ const RecapitulationCharts = () => {
     },
     tooltip: {
       enabled: true,
-      enabledOnSeries: undefined,
       shared: true,
       followCursor: false,
       intersect: false,
-      inverseOrder: false,
-      custom: undefined,
       hideEmptySeries: true,
       fillSeriesColor: true,
-      theme: "false",
       style: {
         fontSize: '1rem',
         fontFamily: "Helvetica, Arial, sans-serif",
@@ -79,142 +75,64 @@ const RecapitulationCharts = () => {
       breakpoint: 560,
       options: {
         chart: {
-          width: 600,
-          type: 'pie',
-          foreColor: '#ffffff',
-          animations: {
-            enabled: true,
-            easing: 'easeinout',
-            speed: 800,
-            animateGradually: {
-              enabled: true,
-              delay: 150
-            },
-            dynamicAnimation: {
-              enabled: true,
-              speed: 350
-            }
-          }
+          width: 600
         },
         legend: {
           position: "bottom",
-          horizontalAlign: 'left', 
-          enable: true,
+          horizontalAlign: 'left',
           width: 400,
           fontSize: "16rem",
           offsetX: 70,
-          offsetY: 0,
-          markers: {
-            size: 6,
-            shape: undefined,
-            strokeWidth: 1,
-            fillColors: undefined,
-            customHTML: undefined,
-            onClick: undefined,
-            offsetX: -10,
-            offsetY: 0,
-          },
-          itemMargin: {
-            horizontal: 50,
-          },
-        },
-        dataLabels: {
-          enabled: true,
-          style: {
-            fontSize: "2rem",
-            fontFamily: "Helvetica, Arial, sans-serif",
-            fontWeight: "bold"
-          }
         },
       }
     },
     {
       breakpoint: 380,
-        options: {
-          chart: {
-            width: 540,
-            type: 'pie',
-            foreColor: '#ffffff',
-            animations: {
-              enabled: true,
-              easing: 'easeinout',
-              speed: 800,
-              animateGradually: {
-                enabled: true,
-                delay: 150
-              },
-              dynamicAnimation: {
-                enabled: true,
-                speed: 350
-              }
-            }
-          },
-          legend: {
-            position: "bottom",
-            horizontalAlign: 'left', 
-            enable: true,
-            width: 400,
-            fontSize: "16rem",
-            offsetX: 50,
-            offsetY: 0,
-            markers: {
-              size: 6,
-              shape: undefined,
-              strokeWidth: 1,
-              fillColors: undefined,
-              customHTML: undefined,
-              onClick: undefined,
-              offsetX: -10,
-              offsetY: 0,
-            },
-            itemMargin: {
-              horizontal: 50,
-            },
-          },
-          dataLabels: {
-            enabled: true,
-            style: {
-              fontSize: "2rem",
-              fontFamily: "Helvetica, Arial, sans-serif",
-              fontWeight: "bold"
-            }
-          },
-        }
+      options: {
+        chart: {
+          width: 540
+        },
+        legend: {
+          position: "bottom",
+          horizontalAlign: 'left',
+          width: 400,
+          fontSize: "16rem",
+          offsetX: 50,
+        },
       }
-    ]
+    }]
   };
 
-  const renderChart = () => {
-    if (chart) {
-      chart.updateOptions(options);
-    } else {
-      const newChart = new ApexCharts(document.querySelector("#chart"), options);
-      setChart(newChart);
-      newChart.render();
-    }
-  }
-
-  const fetchData = async () => {
-    try {
-      const recapData = await getCandidatesRecaptulation()
-      setCandidates(recapData)
-    } catch (error) {
-      console.error("Error fetching data:", error)
-    }
-  }
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const recapData = await getCandidatesRecaptulation();
+        setCandidates(recapData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     fetchData();
-/*     const intervalId = setInterval(fetchData, 10000); // Update every 10 seconds
-    return () => clearInterval(intervalId); */
-  }, [])
+    // Uncomment if you want to fetch data periodically during development
+    // const intervalId = setInterval(fetchData, 10000);
+    // return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     if (candidates.length > 0) {
-      renderChart();
+      if (typeof window !== 'undefined') {
+        if (chart) {
+          chart.updateOptions(options);
+        } else {
+          const newChart = new ApexCharts(document.querySelector("#chart"), options);
+          setChart(newChart);
+          newChart.render();
+        }
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [candidates])
+  }, [candidates]);
 
   const DigitalRecapitulation = () => (
     <div className="hidden lg:flex justify-around h-64 -mt-3 w-full p-10 gap-4">
@@ -225,14 +143,14 @@ const RecapitulationCharts = () => {
         </div>
       ))}
     </div>
-  )
+  );
 
-  return(
+  return (
     <div className="flex flex-col w-full h-full items-center">
-      <div id="chart"/>
+      <div id="chart" />
       <DigitalRecapitulation />
     </div>
-  )
-}
+  );
+};
 
-export default RecapitulationCharts
+export default RecapitulationCharts;
