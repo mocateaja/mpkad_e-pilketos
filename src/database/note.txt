@@ -15,7 +15,7 @@ BEGIN
     SET total_votes = (
         SELECT COALESCE(SUM(CASE WHEN vote_one = "e-pilketos_candidates".id THEN 1 ELSE 0 END), 0) +
                COALESCE(SUM(CASE WHEN vote_two = "e-pilketos_candidates".id THEN 1 ELSE 0 END), 0)
-        FROM "e-pilketos_users"
+        FROM "e-pilketos_voting_blocks"
     );
     
     RETURN NULL; -- karena ini adalah trigger AFTER

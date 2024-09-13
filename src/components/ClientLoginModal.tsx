@@ -95,6 +95,13 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
                 placeholder="Token"
                 size="md"
                 type="text"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                      e.preventDefault();
+                      (async() => await loginClient())()
+                    }
+                  }
+                }
               />
               <p className="text-red-500 text-left w-full">{error}</p>
             </VStack>

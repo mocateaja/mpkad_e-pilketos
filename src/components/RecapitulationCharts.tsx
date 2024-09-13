@@ -39,18 +39,27 @@ const RecapitulationCharts = () => {
       fontSize: "20rem",
       offsetX: -30,
       markers: {
+        shape: undefined,
+        strokeWidth: 1,
+        fillColors: undefined,
+        customHTML: undefined,
+        onClick: undefined,
+        offsetX: -10,
+        offsetY: 0,
         size: 10,
-        shape: 'circle',
-        strokeWidth: 1
       },
     },
     tooltip: {
       enabled: true,
+      enabledOnSeries: undefined,
       shared: true,
       followCursor: false,
       intersect: false,
+      inverseOrder: false,
+      custom: undefined,
       hideEmptySeries: true,
       fillSeriesColor: true,
+      theme: "false",
       style: {
         fontSize: '1rem',
         fontFamily: "Helvetica, Arial, sans-serif",
@@ -69,32 +78,109 @@ const RecapitulationCharts = () => {
       breakpoint: 560,
       options: {
         chart: {
-          width: 600
+          width: 600,
+          type: 'pie',
+          foreColor: '#ffffff',
+          animations: {
+            enabled: true,
+            easing: 'easeinout',
+            speed: 800,
+            animateGradually: {
+              enabled: true,
+              delay: 150
+            },
+            dynamicAnimation: {
+              enabled: true,
+              speed: 350
+            }
+          }
         },
         legend: {
           position: "bottom",
-          horizontalAlign: 'left',
+          horizontalAlign: 'left', 
+          enable: true,
           width: 400,
           fontSize: "16rem",
           offsetX: 70,
+          offsetY: 0,
+          markers: {
+            size: 6,
+            shape: undefined,
+            strokeWidth: 1,
+            fillColors: undefined,
+            customHTML: undefined,
+            onClick: undefined,
+            offsetX: -10,
+            offsetY: 0,
+          },
+          itemMargin: {
+            horizontal: 50,
+          },
+        },
+        dataLabels: {
+          enabled: true,
+          style: {
+            fontSize: "2rem",
+            fontFamily: "Helvetica, Arial, sans-serif",
+            fontWeight: "bold"
+          }
         },
       }
     },
     {
       breakpoint: 380,
-      options: {
-        chart: {
-          width: 540
-        },
-        legend: {
-          position: "bottom",
-          horizontalAlign: 'left',
-          width: 400,
-          fontSize: "16rem",
-          offsetX: 50,
-        },
+        options: {
+          chart: {
+            width: 540,
+            type: 'pie',
+            foreColor: '#ffffff',
+            animations: {
+              enabled: true,
+              easing: 'easeinout',
+              speed: 800,
+              animateGradually: {
+                enabled: true,
+                delay: 150
+              },
+              dynamicAnimation: {
+                enabled: true,
+                speed: 350
+              }
+            }
+          },
+          legend: {
+            position: "bottom",
+            horizontalAlign: 'left', 
+            enable: true,
+            width: 400,
+            fontSize: "16rem",
+            offsetX: 50,
+            offsetY: 0,
+            markers: {
+              size: 6,
+              shape: undefined,
+              strokeWidth: 1,
+              fillColors: undefined,
+              customHTML: undefined,
+              onClick: undefined,
+              offsetX: -10,
+              offsetY: 0,
+            },
+            itemMargin: {
+              horizontal: 50,
+            },
+          },
+          dataLabels: {
+            enabled: true,
+            style: {
+              fontSize: "2rem",
+              fontFamily: "Helvetica, Arial, sans-serif",
+              fontWeight: "bold"
+            }
+          },
+        }
       }
-    }]
+    ]
   };
 
   useEffect(() => {

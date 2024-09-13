@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import Image from "next/image"
-import Sakti from "@/asset/image/example.png"
-import Listi from "@/asset/image/example2.png"
+import Sakti_IMG from "@/asset/image/example.png"
+import Listi_IMG from "@/asset/image/example2.png"
+import Rosadi_IMG from "@/asset/image/example3.png"
+import Wilujeng_IMG from "@/asset/image/example4.png"
+import Arman_IMG from "@/asset/image/example5.png"
+import Dimas_IMG from "@/asset/image/example6.png"
 import font from '@/utils/Font';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -88,8 +92,8 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 		setSaveDataStatus(true)
 	}
 
-	const example = [Sakti,Listi]
-	const exampleName = ["SAKTI", "LISTI"]
+	const example = [Sakti_IMG,Listi_IMG,Rosadi_IMG,Wilujeng_IMG,Arman_IMG,Dimas_IMG]
+	const exampleName = [["SAKTI","Mitratama"], ["LISTI","Mitratama"], ["ROSADI","Mitratama"], ["NINGRUM","Mitramuda"], ["ARMAN","Mitramuda"], ["DIMAS","Mitramuda"]]
 
 	useEffect(() => {
 		saveCandidatesData()
@@ -135,8 +139,8 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 						animate={{ y: 0, opacity: 100 }} 
 						transition={{ ease: "easeInOut", duration: 0.5, delay: 0.4 }}
 					>
-						<h2 className={`${font.tertiary[800].className} text-[5.4rem] sm:text-[8.5rem] -mt-28 z-10`}>
-							{exampleName[reviewCandidate-1]}
+						<h2 className={`${font.tertiary[800].className} text-[5.4rem] sm:text-[8.5rem] -mt-32 z-10`}>
+							{exampleName[reviewCandidate-1][0]}
 						</h2>
 					</motion.div>
 				)
@@ -148,7 +152,7 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 						transition={{ ease: "easeInOut", duration: 0.5, delay: 0.9 }}
 					>
 						<p className="w-full text-center -mt-32">
-							Mitratama
+							{exampleName[reviewCandidate-1][1]}
 						</p>
 					</motion.div>
 				)

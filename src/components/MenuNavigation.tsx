@@ -69,11 +69,6 @@ const MenuNavigation = ({ title } : { title: string }) => {
                 Hasil Suara
               </Box>
             </Link>
-            <Link href={"/contact"}>
-              <Box className={`py-2 pl-4 cursor-pointer rounded-lg duration-200 hover:bg-secondary hover:text-white ${font.primary}`}>
-                Kontak IT
-              </Box>
-            </Link>
           </VStack>
           </DrawerBody>
 
