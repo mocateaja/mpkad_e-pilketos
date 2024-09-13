@@ -71,7 +71,7 @@ export default function PilketosPage() {
 				/* alert(JSON.stringify(candidatesData)) */
 			})()
 		}
-	},[])
+	},[loginStatus, onOpen])
 	
   return (
 		<main className="flex flex-col min-h-screen w-screen max-w-screen justify-center overflow-x-hidden">

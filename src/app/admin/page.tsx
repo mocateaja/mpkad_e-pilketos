@@ -16,7 +16,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     loginStatus ? null : onOpen();
-  }, []);
+  }, [loginStatus, onOpen]);
 
   const handleLoginResult = (result: boolean) => {
     setLoginStatus(result);

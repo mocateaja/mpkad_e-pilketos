@@ -97,6 +97,7 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 
 	useEffect(() => {
 		saveCandidatesData()
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [candidatesData])
 
 	const CandidatesComponent = ({ request }:{ request: string }) => {

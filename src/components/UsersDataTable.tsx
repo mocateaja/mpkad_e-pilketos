@@ -55,6 +55,7 @@ const UsersDataTable: React.FC = () => {
     } catch (error) {
       console.error(error);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const QrCode = ({ text }: { text: string }) => {
