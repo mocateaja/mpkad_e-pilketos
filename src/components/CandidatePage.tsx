@@ -22,7 +22,7 @@ import {
 	useDisclosure
 } from "@chakra-ui/react";
 import { clientVoting } from '@/utils';
-import LoadingAnimation from './LoadingAnimation';
+import LoadingAnimation from '@/components/LoadingAnimation';
 import { HiCheckCircle } from "react-icons/hi2";
 
 type CandidateData = {
