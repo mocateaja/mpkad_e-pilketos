@@ -166,7 +166,7 @@ export async function vote({
     CryptoJS.enc.Base64
   );
   try {
-    console.log(getTimestamp())
+    console.log(getTimestamp());
     await insertVotingBlock({
       nis: nis,
       userId: userId,

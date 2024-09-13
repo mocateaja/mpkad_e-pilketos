@@ -70,6 +70,13 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                 placeholder="Password"
                 size="md"
                 type="password"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                      e.preventDefault();
+                      login()
+                    }
+                  }
+                }
               />
               <p className="text-red-500 text-left w-full">{error}</p>
             </VStack>

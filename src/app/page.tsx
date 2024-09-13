@@ -28,7 +28,7 @@ export default function Home() {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const router = useRouter()
-  const endDateTime = "2024-09-10T09:00:00";
+  const endDateTime = "2024-09-23T09:00:00";
   const timer = new Timer(endDateTime);
 
   const [timeLeft, setTimeLeft] = useState("")
@@ -42,7 +42,7 @@ export default function Home() {
   });
 
   const redirect = () => {
-    router.push("/pencoblosan")
+    router.push("/main")
   }
 
   return (

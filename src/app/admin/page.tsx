@@ -12,7 +12,7 @@ import MenuNavigation from "@/components/MenuNavigation";
 
 export default function AdminPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [loginStatus, setLoginStatus] = useState<boolean>(false); // Ganti menjadi false jika ujicoba sudah selesai!
+  const [loginStatus, setLoginStatus] = useState<boolean>(true); // Ganti menjadi false jika ujicoba sudah selesai!
 
   useEffect(() => {
     loginStatus ? null : onOpen();
@@ -23,8 +23,8 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen w-screen">
-      <div className={`container mx-auto mt-28 min-h-screen max-w-screen overflow-x-hidden ${font.primary}`}>
+    <div className="flex flex-col w-screen items-center">
+      <div className={`container mx-auto mt-28 max-w-screen overflow-x-hidden overflow-y-hidden ${font.primary}`}>
         <div className={`${
             loginStatus ? "flex opacity-100" : "hidden opacity-0"
           } duration-[2000ms] w-screen absolute top-0 left-0`}>
