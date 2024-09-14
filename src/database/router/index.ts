@@ -8,8 +8,19 @@ import CryptoJS from "crypto-js";
     2. Update data users ok
     3. Ambil data kandidat ok
     4. Insert data ke tabel voting_blocks ok
+    5. Bulk Insert new Users ok
     Done
 */
+
+export async function createUsers({ nis, name, classes } : { nis: number, name: string, classes: string}) {
+  try {
+    const result = await sql`
+            INSERT INTO 
+    `
+  } catch (error) {
+    console.error(error)
+  }
+} 
 
 export async function getUsersData({ key }: { [key: string]: string }) {
   try {

@@ -12,175 +12,86 @@ type CandidateData = {
 
 const RecapitulationCharts = () => {
   const [candidates, setCandidates] = useState<CandidateData[]>([]);
-  const [chart, setChart] = useState<any>(null);
+  const [mitratamaChart, setMitratamaChart] = useState<any>(null);
+  const [mitramudaChart, setMitramudaChart] = useState<any>(null);
 
-  const options: ApexCharts.ApexOptions | any = {
-    series: candidates.map(c => c.total_votes),
-    chart: {
-      width: 800,
-      type: 'pie',
-      foreColor: '#ffffff',
-      animations: {
-        enabled: true,
-        easing: 'easeinout',
-        speed: 800,
-        animateGradually: {
+  const colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#546E7A', '#26a69a', '#D10CE8'];
+
+  const createChartOptions = (position: string) => {
+    const filteredCandidates = candidates.filter(c => c.position === position);
+    return {
+      series: [{
+        name: 'Total Votes',
+        data: filteredCandidates.map(c => c.total_votes)
+      }],
+      chart: {
+        height: 350,
+        width: 800,
+        type: 'bar',
+        animations: {
           enabled: true,
-          delay: 150
-        },
-        dynamicAnimation: {
-          enabled: true,
-          speed: 350
+          easing: 'easeinout',
+          speed: 800,
+          animateGradually: {
+            enabled: true,
+            delay: 150
+          },
+          dynamicAnimation: {
+            enabled: true,
+            speed: 350
+          }
         }
-      }
-    },
-    legend: {
-      show: true,
-      fontSize: "20rem",
-      offsetX: -30,
-      markers: {
-        shape: undefined,
-        strokeWidth: 1,
-        fillColors: undefined,
-        customHTML: undefined,
-        onClick: undefined,
-        offsetX: -10,
-        offsetY: 0,
-        size: 10,
       },
-    },
-    tooltip: {
-      enabled: true,
-      enabledOnSeries: undefined,
-      shared: true,
-      followCursor: false,
-      intersect: false,
-      inverseOrder: false,
-      custom: undefined,
-      hideEmptySeries: true,
-      fillSeriesColor: true,
-      theme: "false",
-      style: {
-        fontSize: '1rem',
-        fontFamily: "Helvetica, Arial, sans-serif",
-      }
-    },
-    dataLabels: {
-      enabled: true,
-      style: {
-        fontSize: "2rem",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold"
-      }
-    },
-    labels: candidates.map(c => c.name),
-    responsive: [{
-      breakpoint: 560,
-      options: {
-        chart: {
-          width: 600,
-          type: 'pie',
-          foreColor: '#ffffff',
-          animations: {
-            enabled: true,
-            easing: 'easeinout',
-            speed: 800,
-            animateGradually: {
-              enabled: true,
-              delay: 150
-            },
-            dynamicAnimation: {
-              enabled: true,
-              speed: 350
-            }
-          }
-        },
-        legend: {
-          position: "bottom",
-          horizontalAlign: 'left', 
-          enable: true,
-          width: 400,
-          fontSize: "16rem",
-          offsetX: 70,
-          offsetY: 0,
-          markers: {
-            size: 6,
-            shape: undefined,
-            strokeWidth: 1,
-            fillColors: undefined,
-            customHTML: undefined,
-            onClick: undefined,
-            offsetX: -10,
-            offsetY: 0,
-          },
-          itemMargin: {
-            horizontal: 50,
-          },
-        },
-        dataLabels: {
-          enabled: true,
+      colors: colors,
+      plotOptions: {
+        bar: {
+          columnWidth: '45%',
+          distributed: true,
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      legend: {
+        show: false
+      },
+      xaxis: {
+        categories: filteredCandidates.map(c => `${c.position} ${c.id}`),
+        labels: {
           style: {
-            fontSize: "2rem",
-            fontFamily: "Helvetica, Arial, sans-serif",
-            fontWeight: "bold"
-          }
-        },
-      }
-    },
-    {
-      breakpoint: 380,
-        options: {
-          chart: {
-            width: 540,
-            type: 'pie',
-            foreColor: '#ffffff',
-            animations: {
-              enabled: true,
-              easing: 'easeinout',
-              speed: 800,
-              animateGradually: {
-                enabled: true,
-                delay: 150
-              },
-              dynamicAnimation: {
-                enabled: true,
-                speed: 350
-              }
-            }
-          },
-          legend: {
-            position: "bottom",
-            horizontalAlign: 'left', 
-            enable: true,
-            width: 400,
-            fontSize: "16rem",
-            offsetX: 50,
-            offsetY: 0,
-            markers: {
-              size: 6,
-              shape: undefined,
-              strokeWidth: 1,
-              fillColors: undefined,
-              customHTML: undefined,
-              onClick: undefined,
-              offsetX: -10,
-              offsetY: 0,
-            },
-            itemMargin: {
-              horizontal: 50,
-            },
-          },
-          dataLabels: {
-            enabled: true,
-            style: {
-              fontSize: "2rem",
-              fontFamily: "Helvetica, Arial, sans-serif",
-              fontWeight: "bold"
-            }
+            colors: colors,
+            fontSize: '12px'
           },
         }
-      }
-    ]
+      },
+      yaxis: {
+        title: {
+          text: 'Total Votes'
+        }
+      },
+      title: {
+        text: `${position} Votes`,
+        align: 'center',
+        style: {
+          fontSize: '18px',
+          fontWeight: 'bold',
+          color: '#ffffff'
+        }
+      },
+      tooltip: {
+        enabled: true,
+        theme: 'dark',
+        style: {
+          fontSize: '12px',
+          fontFamily: "Helvetica, Arial, sans-serif",
+        },
+        y: {
+          formatter: function (val: any) {
+            return val + " votes"
+          }
+        }
+      },
+    };
   };
 
   useEffect(() => {
@@ -194,9 +105,6 @@ const RecapitulationCharts = () => {
     };
 
     fetchData();
-    // Uncomment if you want to fetch data periodically during development
-    // const intervalId = setInterval(fetchData, 10000);
-    // return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
@@ -204,12 +112,24 @@ const RecapitulationCharts = () => {
       const loadApexCharts = async () => {
         if (typeof window !== 'undefined') {
           const ApexCharts = (await import('apexcharts')).default;
-          if (chart) {
-            chart.updateOptions(options);
+          
+          const mitratamaOptions = createChartOptions('Mitratama');
+          const mitramudaOptions = createChartOptions('Mitramuda');
+
+          if (mitratamaChart) {
+            mitratamaChart.updateOptions(mitratamaOptions);
           } else {
-            const newChart = new ApexCharts(document.querySelector("#chart"), options);
-            setChart(newChart);
-            newChart.render();
+            const newMitratamaChart = new ApexCharts(document.querySelector("#mitratama-chart"), mitratamaOptions);
+            setMitratamaChart(newMitratamaChart);
+            newMitratamaChart.render();
+          }
+
+          if (mitramudaChart) {
+            mitramudaChart.updateOptions(mitramudaOptions);
+          } else {
+            const newMitramudaChart = new ApexCharts(document.querySelector("#mitramuda-chart"), mitramudaOptions);
+            setMitramudaChart(newMitramudaChart);
+            newMitramudaChart.render();
           }
         }
       };
@@ -231,8 +151,9 @@ const RecapitulationCharts = () => {
   );
 
   return (
-    <div className="flex flex-col w-full h-full items-center">
-      <div id="chart" />
+    <div className="flex flex-col w-full h-full items-center justify-center md-px-0 px-2">
+      <div id="mitratama-chart" className="mb-8" />
+      <div id="mitramuda-chart" className="mb-8" />
       <DigitalRecapitulation />
     </div>
   );
