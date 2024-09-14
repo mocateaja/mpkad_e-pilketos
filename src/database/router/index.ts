@@ -181,10 +181,10 @@ export async function vote({
         WHERE nis = ${nis}
         `;
     await sql`
-        UPDATE "e-pilketos_token" t
-        SET used_status = u.vote_status
-        FROM "e-pilketos_users" u
-        WHERE t.nis = u.nis;
+        UPDATE "e-pilketos_token" 
+        SET used_status = "e-pilketos_token".vote_status
+        FROM "e-pilketos_users"
+        WHERE "e-pilketos_token".nis = "e-pilketos_users".nis;
         `;
     return "request success!";
   } catch (error) {
@@ -195,7 +195,7 @@ export async function vote({
 
 export async function getCandidatesData() {
   try {
-    const result = await sql`
+    const result = await sql` 
         SELECT 
             "e-pilketos_candidates".id, "e-pilketos_candidates".name, "e-pilketos_candidates".vission, "e-pilketos_candidates".mission, "e-pilketos_candidates".position, "e-pilketos_candidates".imageurl
         FROM
