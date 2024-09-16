@@ -12,15 +12,29 @@ import CryptoJS from "crypto-js";
     Done
 */
 
-export async function createUsers({ nis, name, classes } : { nis: number, name: string, classes: string}) {
+type RawUsersData = {
+  nis: number,
+  name: string,
+  class: string,
+}
+
+export async function bulkCreateUsers({ array }: { array: RawUsersData[] }) {
+  let sql_query = `INSERT INTO e_pilketos_users (nis, name, class) VALUES `;
+
+  array.forEach((user, index) => {
+    sql_query += `(${user.nis}, ${user.name}, ${user.class})`;
+    if (index !== array.length - 1) {
+      sql_query += ", ";
+    }
+  });
   try {
-    const result = await sql`
-            INSERT INTO 
-    `
+    await sql`${sql_query}`
+    return true
   } catch (error) {
-    console.error(error)
+    console.error(error);
+    return false
   }
-} 
+}
 
 export async function getUsersData({ key }: { [key: string]: string }) {
   try {

@@ -28,6 +28,9 @@ const RecapitulationCharts = () => {
         height: 350,
         width: 800,
         type: 'bar',
+        toolbar: {
+          show: false
+        },
         animations: {
           enabled: true,
           easing: 'easeinout',
@@ -66,7 +69,12 @@ const RecapitulationCharts = () => {
       },
       yaxis: {
         title: {
-          text: 'Total Votes'
+          text: 'Total Votes',
+          style: {
+            fontSize: '18px',
+            fontWeight: 'bold',
+            color: '#ffffff'
+          }
         }
       },
       title: {
@@ -91,6 +99,30 @@ const RecapitulationCharts = () => {
           }
         }
       },
+      responsive: [
+      {
+        breakpoint: 500,
+          options: {
+            chart: {
+              width: "100%",
+              type: 'bar',
+              animations: {
+                enabled: true,
+                easing: 'easeinout',
+                speed: 800,
+                animateGradually: {
+                  enabled: true,
+                  delay: 150
+                },
+                dynamicAnimation: {
+                  enabled: true,
+                  speed: 350
+                }
+              }
+            },
+          }
+        }
+      ]
     };
   };
 
@@ -140,11 +172,11 @@ const RecapitulationCharts = () => {
   }, [candidates]);
 
   const DigitalRecapitulation = () => (
-    <div className="hidden lg:flex justify-around h-64 -mt-3 w-full p-10 gap-4">
+    <div className="hidden lg:flex justify-center h-64 -mt-3 w-full p-10 gap-4">
       {candidates.map((data) => (
-        <div key={data.id} className="flex justify-center w-full h-full">
+        <div key={data.id} className="flex justify-center w-full max-w-48 h-full">
           <h3 className="bg-white text-black absolute m-2 p-2 text-center rounded-xl text-sm lg:w-28 xl:w-36">{data.name}</h3>
-          <h3 className="bg-transparent border-2 border-solid border-white rounded-xl w-full h-full flex items-center justify-center text-5xl mt-6">{data.total_votes}</h3>
+          <h3 className="bg-transparent border-2 border-solid border-white rounded-xl w-full h-full max-w-48 flex items-center justify-center text-5xl mt-6">{data.total_votes}</h3>
         </div>
       ))}
     </div>

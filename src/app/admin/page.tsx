@@ -2,8 +2,6 @@
 
 import dynamic from 'next/dynamic'
 import SummarySection from "@/components/SummarySection";
-import WhitelistIPTable from "@/components/WhitelistIPTable";
-import UsersDataTable from "@/components/UsersDataTable";
 import AdminLoginModal from "@/components/AdminLoginModal";
 import { useDisclosure, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -65,7 +63,6 @@ export default function AdminPage() {
             onLoginResult={handleLoginResult}
           />
           <SummarySection />
-
           <div className="flex flex-col md:flex-row gap-4 mt-8">
             <DynamicComponentWithNoSSR_WhiteListTable />
             <DynamicComponentWithNoSSR_UsersDataTable />

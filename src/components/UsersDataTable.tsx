@@ -119,8 +119,8 @@ const UsersDataTable: React.FC = () => {
                     <PopoverCloseButton />
                     <PopoverHeader className="text-black">Token Information</PopoverHeader>
                     <PopoverBody className="text-black">
-                      Token: {user.token}
                       <QrCode text={user.token}/>
+                      Token: {user.token}
                     </PopoverBody>
                   </PopoverContent>
                 </Popover>
