@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from 'next/dynamic'
 import SummarySection from "@/components/SummarySection";
 import WhitelistIPTable from "@/components/WhitelistIPTable";
 import UsersDataTable from "@/components/UsersDataTable";
@@ -9,6 +10,15 @@ import { useEffect, useState } from "react";
 import font from "@/utils/Font"
 import Footer from "@/components/Footer"
 import MenuNavigation from "@/components/MenuNavigation";
+
+const DynamicComponentWithNoSSR_WhiteListTable = dynamic(
+  () => import('@/components/WhitelistIPTable'),
+  { ssr: false }
+)
+const DynamicComponentWithNoSSR_UsersDataTable = dynamic(
+  () => import('@/components/UsersDataTable'),
+  { ssr: false }
+)
 
 export default function AdminPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -57,8 +67,8 @@ export default function AdminPage() {
           <SummarySection />
 
           <div className="flex flex-col md:flex-row gap-4 mt-8">
-            <WhitelistIPTable />
-            <UsersDataTable />
+            <DynamicComponentWithNoSSR_WhiteListTable />
+            <DynamicComponentWithNoSSR_UsersDataTable />
           </div>
         </main>
       </div>
