@@ -100,9 +100,9 @@ export default function PilketosPage() {
 						onLoginResult={handleLoginResult}
 						onLoginResultData={handleLoginResultdData}
 					/>
+					<MenuNavigation title="Pencoblosan" />
+					<CandidatePage nis={nisClient} token_id={tokenIdClient!} candidatesData={candidatesData}/>
       	</Suspense>
-				<MenuNavigation title="Pencoblosan" />
-				<CandidatePage nis={nisClient} token_id={tokenIdClient!} candidatesData={candidatesData}/>
 			</div>
 			<div className={`${font.primary} hidden md:flex p-6 h-screen text-center justify-center`}>
 				<div className={`w-1/2 ${loginStatus === false ? "md:hidden" : ""}`}>
