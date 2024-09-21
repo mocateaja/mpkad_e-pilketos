@@ -4,8 +4,12 @@ import MenuNavigation from "@/components/MenuNavigation"
 import Footer from "@/components/Footer";
 import font from '@/utils/Font';
 import RecapitulationCharts from "@/components/RecapitulationCharts";
+import { secureTheWeb } from "@/utils";
+import { useRouter } from "next/navigation";
 
 export default function RecapitulationPage() {
+	const router = useRouter()
+	secureTheWeb(router)
   return(
 		<main className="block overflow-x-hidden">
 			<MenuNavigation title="Pencoblosan" />

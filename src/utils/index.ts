@@ -1,4 +1,5 @@
 import CryptoJS from 'crypto-js';
+import { useRouter } from 'next/navigation';
 export const SECRET_TOKEN = process.env.NEXT_PUBLIC_PRIMARY_TOKEN
 const ADMIN = process.env.NEXT_PUBLIC_ADMIN
 const ADMINPW = process.env.NEXT_PUBLIC_ADMINPW
@@ -68,6 +69,16 @@ export const localStorage = new LocalStorage()
 
 //////////////////////////////////////////////////////////////////
 // All function components that work with REST API
+
+export const secureTheWeb = async(router: any) => {
+  const userIP = await getIPAddress()
+  const whiteListIP = await whiteList.get()
+  if (whiteListIP.includes(userIP)) {
+    return null
+  } else { 
+    router.push("/blocked")
+  }
+}
 
 export async function getIPAddress() {
   try {
