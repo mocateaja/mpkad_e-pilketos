@@ -6,8 +6,9 @@ import CandidatePage from "@/components/CandidatePage";
 import font from '@/utils/Font';
 import { useState, useEffect } from "react";
 import { getCandidatesData } from "@/utils";
-import { useDisclosure } from "@chakra-ui/react";
+import { useDisclosure, useToast } from "@chakra-ui/react";
 import ClientLoginModal from "@/components/ClientLoginModal";
+import { motion } from "framer-motion"
 
 type ClientData = {
 	id: number,
@@ -25,7 +26,7 @@ type CandidateData = {
 	vission: string,
 	mission: string,
 	position: string,
-	imageURL: string
+	imageurl: string
 }
 
 export default function PilketosPage() {
@@ -34,7 +35,9 @@ export default function PilketosPage() {
 	const [clientData, setClientData] = useState<ClientData[]>()
 	const [nisClient, setNisClient] = useState<string>("")
 	const [tokenIdClient, setTokenIdClient] = useState<number>()
+	const [nameClient, setNameClient] = useState<string>("")
 	const [candidatesData, setCandidatesData] = useState<CandidateData[]>([])
+	const toast = useToast();
   
 	const handleLoginResult = (result: boolean) => {
 		setLoginStatus(result);
@@ -50,6 +53,19 @@ export default function PilketosPage() {
 		}])
 		setNisClient(nis)
 		setTokenIdClient(token_id)
+		setNameClient(name)
+		name = name.replace(
+			/(\w)(\w*)/g,
+			(_, firstChar, rest) => firstChar + rest.toLowerCase()
+		);
+		toast({
+      position: "top",
+      title: "Login berhasil!",
+      description: `Anda login sebagai ${name} dengan NIS ${nis}`,
+      status: "info",
+      duration: 3000,
+      isClosable: true,
+    });
 	}
 
 	async function reFetch() {

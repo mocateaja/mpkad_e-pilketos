@@ -80,8 +80,104 @@ BEFORE INSERT ON "e-pilketos_whitelist"
 FOR EACH ROW
 EXECUTE FUNCTION set_and_update_ids();
 
+FUNGSI UNTUK MENGUPDATE URUTAN ID YANG BENAR PADA SETIAP TABEL (HANYA PERLU MENGGANTI ISINYA SAJA)
+
+-- 2. Buat fungsi trigger untuk mengatur dan memperbarui ID
+CREATE OR REPLACE FUNCTION set_and_update_ids_votingblocks() 
+RETURNS TRIGGER AS $$
+DECLARE
+    new_id INTEGER;
+BEGIN
+    -- Set the id for the new row based on the current max id
+    SELECT COALESCE(MAX("id"), 0) + 1 INTO new_id FROM "e-pilketos_voting_blocks";
+    NEW."id" := new_id;
+
+    -- Update IDs for all rows
+    UPDATE "e-pilketos_voting_blocks"
+    SET "id" = sub.new_id
+    FROM (
+        SELECT "id" AS old_id, ROW_NUMBER() OVER (ORDER BY "id") AS new_id
+        FROM "e-pilketos_voting_blocks"
+    ) AS sub
+    WHERE "e-pilketos_voting_blocks"."id" = sub.old_id;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 3. Buat trigger untuk menetapkan ID pada saat insert
+CREATE TRIGGER set_and_update_ids_votingblocks
+BEFORE INSERT ON "e-pilketos_voting_blocks"
+FOR EACH ROW
+EXECUTE FUNCTION set_and_update_ids_votingblocks();
+
+//
+
+-- 2. Buat fungsi trigger untuk mengatur dan memperbarui ID
+CREATE OR REPLACE FUNCTION set_and_update_ids_token() 
+RETURNS TRIGGER AS $$
+DECLARE
+    new_id INTEGER;
+BEGIN
+    -- Set the id for the new row based on the current max id
+    SELECT COALESCE(MAX("id"), 0) + 1 INTO new_id FROM "e-pilketos_token";
+    NEW."id" := new_id;
+
+    -- Update IDs for all rows
+    UPDATE "e-pilketos_token"
+    SET "id" = sub.new_id
+    FROM (
+        SELECT "id" AS old_id, ROW_NUMBER() OVER (ORDER BY "id") AS new_id
+        FROM "e-pilketos_token"
+    ) AS sub
+    WHERE "e-pilketos_token"."id" = sub.old_id;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 3. Buat trigger untuk menetapkan ID pada saat insert
+CREATE TRIGGER set_and_update_ids_token
+BEFORE INSERT ON "e-pilketos_token"
+FOR EACH ROW
+EXECUTE FUNCTION set_and_update_ids_token();
+
+//
+
+-- 2. Buat fungsi trigger untuk mengatur dan memperbarui ID
+CREATE OR REPLACE FUNCTION set_and_update_ids_users() 
+RETURNS TRIGGER AS $$
+DECLARE
+    new_id INTEGER;
+BEGIN
+    -- Set the id for the new row based on the current max id
+    SELECT COALESCE(MAX("id"), 0) + 1 INTO new_id FROM "e-pilketos_users";
+    NEW."id" := new_id;
+
+    -- Update IDs for all rows
+    UPDATE "e-pilketos_users"
+    SET "id" = sub.new_id
+    FROM (
+        SELECT "id" AS old_id, ROW_NUMBER() OVER (ORDER BY "id") AS new_id
+        FROM "e-pilketos_users"
+    ) AS sub
+    WHERE "e-pilketos_users"."id" = sub.old_id;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 3. Buat trigger untuk menetapkan ID pada saat insert
+CREATE TRIGGER set_and_update_ids_users
+BEFORE INSERT ON "e-pilketos_users"
+FOR EACH ROW
+EXECUTE FUNCTION set_and_update_ids_users();
+
+////
+
 -- 4. Buat trigger untuk memperbarui ID setelah delete
-CREATE TRIGGER update_ids_after_delete_trigger
-AFTER DELETE ON "e-pilketos_whitelist"
-FOR EACH STATEMENT
-EXECUTE FUNCTION set_and_update_ids();
+CREATE
+OR REPLACE TRIGGER set_and_update_ids_votingblocks
+AFTER DELETE
+OR INSERT ON "e-pilketos_voting_blocks" FOR EACH STATEMENT
+EXECUTE FUNCTION set_and_update_ids_votingblocks();

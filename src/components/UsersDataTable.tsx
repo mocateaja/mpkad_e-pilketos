@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Popover,
   PopoverTrigger,
@@ -7,14 +7,14 @@ import {
   PopoverBody,
   PopoverArrow,
   PopoverCloseButton,
-  Button,
   Input,
   IconButton
 } from '@chakra-ui/react';
-import QrCreator from 'qr-creator';
 import { getUsersData } from '@/utils';
 import { useRouter } from 'next/navigation';
 import { HiKey } from "react-icons/hi2";
+import QrCode from '@/components/QRCode';
+import { FiRotateCcw } from "react-icons/fi";
 
 interface User {
   id: number;
@@ -32,65 +32,52 @@ const UsersDataTable: React.FC = () => {
   const [userData, setUserData] = useState<User[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const filteredUsers = userData.filter(user =>
-    Object.values(user).some(value => 
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    )
+  const filteredUsers = useCallback(() => 
+    userData.filter(user =>
+      Object.values(user).some(value => 
+        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    ),
+    [userData, searchTerm]
   );
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-  };
+  }, []);
 
-  useEffect(() => {
+  const fetchData = async () => {
     try {
-      (async () => {
-        const data = await getUsersData("");
+      const data = await getUsersData("");
+      if (data === null || data === "failed") {
+        alert("Terjadi kesalahan. Refresh ulang halaman dan cek koneksi!");
+        router.push("/admin");
+      } else {
         setUserData(data);
-        if (data === null || data === "failed") {
-          alert("Terjadi kesalahan. Refresh ulang halaman dan cek koneksi!");
-          router.push("/admin");
-        }
-      })();
+      }
     } catch (error) {
       console.error(error);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const QrCode = ({ text }: { text: string }) => {
-    const qrRef = useRef<HTMLDivElement | null>(null);
-
-    useEffect(() => {
-      if (qrRef.current) {
-        // Bersihkan QR sebelumnya
-        qrRef.current.innerHTML = '';
-
-        QrCreator.render({
-          text: text,
-          radius: 0.5, // 0.0 to 0.5
-          ecLevel: 'H', // L, M, Q, H
-          fill: '#536DFE', // foreground color
-          background: null, // color or null for transparent
-          size: 128 // in pixels
-        }, qrRef.current);
-      }
-    }, [text]);
-
-    return <div className="w-auto h-auto flex" ref={qrRef}></div>;
   };
+
+  useEffect(() => {
+    fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router]);
 
   return (
     <div className="w-full md:w-1/2">
       <div className="flex mb-4">
         <h2 className="text-xl font-bold mb-4 w-full text-white">Users Data</h2>
-        <Input
-          bg={"white"}
-          type="text"
-          placeholder="Cari data pengguna..."
-          className="w-full p-2 border rounded"
-          onChange={handleSearchChange}
-        />
+          <div className="flex w-full gap-x-2">
+          <Input
+            bg={"white"}
+            type="text"
+            placeholder="Cari data pengguna..."
+            className="w-full p-2 border rounded"
+            onChange={handleSearchChange}
+          />
+          <IconButton onClick={fetchData} icon={<FiRotateCcw className='bg-white w-full h-full p-2 rounded-lg'/>} className="bg-white flex" aria-label={''}/>
+        </div>
       </div>
       <table className="w-full border-collapse">
         <thead>
@@ -103,7 +90,7 @@ const UsersDataTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredUsers.map((user) => (
+          {filteredUsers().map((user) => (
             <tr key={user.id} className='text-white'>
               <td className="border p-2">{user.id}</td>
               <td className="border p-2">{user.nis}</td>
@@ -119,7 +106,7 @@ const UsersDataTable: React.FC = () => {
                     <PopoverCloseButton />
                     <PopoverHeader className="text-black">Token Information</PopoverHeader>
                     <PopoverBody className="text-black">
-                      <QrCode text={user.token}/>
+                      <QrCode identity={user.id} nis={user.nis} token={user.token} />
                       Token: {user.token}
                     </PopoverBody>
                   </PopoverContent>

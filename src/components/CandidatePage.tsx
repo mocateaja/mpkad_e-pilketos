@@ -32,7 +32,7 @@ type CandidateData = {
 	vission: string,
 	mission: string,
 	position: string,
-	imageURL: string
+	imageurl: string
 }
 
 interface CandidatePageProps {
@@ -113,7 +113,7 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 						transition={{ ease: "easeInOut", duration: 0.6, delay: 0 }}
 						className="w-full z-10 h-full"
 					>
-						<Image height={0} width={0} src={example[reviewCandidate-1]} alt="" className="scale-150"/>
+						{candidateData[reviewCandidate-1]?.imageurl ? <Image height={500} width={500} src={candidateData[reviewCandidate-1]?.imageurl} alt="" className="scale-150 w-full h-full"/> : null}
 					</motion.div>
 				)
 			case "text":

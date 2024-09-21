@@ -8,33 +8,8 @@ import CryptoJS from "crypto-js";
     2. Update data users ok
     3. Ambil data kandidat ok
     4. Insert data ke tabel voting_blocks ok
-    5. Bulk Insert new Users ok
     Done
 */
-
-type RawUsersData = {
-  nis: number,
-  name: string,
-  class: string,
-}
-
-export async function bulkCreateUsers({ array }: { array: RawUsersData[] }) {
-  let sql_query = `INSERT INTO e_pilketos_users (nis, name, class) VALUES `;
-
-  array.forEach((user, index) => {
-    sql_query += `(${user.nis}, ${user.name}, ${user.class})`;
-    if (index !== array.length - 1) {
-      sql_query += ", ";
-    }
-  });
-  try {
-    await sql`${sql_query}`
-    return true
-  } catch (error) {
-    console.error(error);
-    return false
-  }
-}
 
 export async function getUsersData({ key }: { [key: string]: string }) {
   try {
@@ -64,6 +39,7 @@ export async function getUsersData({ key }: { [key: string]: string }) {
                 "e-pilketos_users".vote_one,
                 "e-pilketos_users".vote_two,
                 "e-pilketos_token".token
+            LIMIT 20;
             `;
       return result;
     } else {
@@ -89,6 +65,7 @@ export async function getUsersData({ key }: { [key: string]: string }) {
                 "e-pilketos_users".vote_one,
                 "e-pilketos_users".vote_two,
                 "e-pilketos_token".token
+            LIMIT 20;
             `;
       return result;
     }
@@ -136,13 +113,14 @@ export async function login({ nis, token }: { [key: string]: string }) {
   try {
     const result = await sql`
         SELECT
-            "e-pilketos_users".id, "e-pilketos_users".nis, "e-pilketos_users".name, "e-pilketos_users".class, "e-pilketos_users".vote_status, "e-pilketos_token".id as token_id
+            "e-pilketos_users".id, "e-pilketos_users".nis, "e-pilketos_users".name, "e-pilketos_users".class, "e-pilketos_users".vote_status, "e-pilketos_token".id as token_id, "e-pilketos_token".nis
         FROM
             "e-pilketos_users",
             "e-pilketos_token"
         WHERE
             "e-pilketos_users".nis = ${nis}
-            AND "e-pilketos_token".token = ${token};
+            AND "e-pilketos_token".token = ${token}
+            AND "e-pilketos_token".nis = ${nis};
         `;
     return result;
   } catch (error) {
@@ -207,8 +185,7 @@ export async function vote({
         `;
     await sql`
         UPDATE "e-pilketos_token" 
-        SET used_status = "e-pilketos_token".vote_status
-        FROM "e-pilketos_users"
+        SET used_status = true
         WHERE "e-pilketos_token".nis = "e-pilketos_users".nis;
         `;
     return "request success!";

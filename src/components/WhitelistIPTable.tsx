@@ -74,8 +74,7 @@ const WhitelistIPTable: React.FC = () => {
     } catch(error) {
       console.error(error)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [router])
 
   return (
     <div className="w-full md:w-1/2">
@@ -92,7 +91,7 @@ const WhitelistIPTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {data.length > 0 ? data.map((item) => (
             <tr key={item.id} className='text-white'>
               <td className="border p-2">{item.id}</td>
               <td className="border p-2 grow">{item.ipaddress}</td>
@@ -101,7 +100,7 @@ const WhitelistIPTable: React.FC = () => {
                 setModalMessageValue(item.ipaddress)
               }} aria-label="Delete IP Address" icon={<HiTrash className="scale-100 p-2 rounded-lg bg-white w-full h-full"/>}/></td>
             </tr>
-          ))}
+          )) : null}
         </tbody>
       </table>
       <Modal closeOnOverlayClick={false} isOpen={isOpenAddModal} onClose={onCloseAddModal}>

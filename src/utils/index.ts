@@ -257,6 +257,17 @@ export const clientLogin = async(nis: string, token: string) => {
     console.log(error) // If the development is done let's replace this line of code
   }
 }
+//////////////////////////////////////////////////////////////////
+
+export const parseUserParams = async(data: any) => {
+  const decryptedData = await decrypt(data, SECRET_TOKEN!)
+  return decryptedData
+}
+
+export const encryptUserParams = async(data: any) => {
+  const encryptedData = await encrypt(data, SECRET_TOKEN!)
+  return encryptedData
+}
 
 //////////////////////////////////////////////////////////////////
 // Encrypt decrypt function
