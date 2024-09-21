@@ -116,7 +116,7 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
     } else {
       null
     }
-  }, [onClose, onLoginResult, onLoginResultData, searchParams])
+  }, [])
 
   return (
     <div>

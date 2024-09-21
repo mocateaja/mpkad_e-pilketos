@@ -4,7 +4,7 @@ import MenuNavigation from "@/components/MenuNavigation"
 import Footer from "@/components/Footer";
 import CandidatePage from "@/components/CandidatePage";
 import font from '@/utils/Font';
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { getCandidatesData } from "@/utils";
 import { useDisclosure, useToast } from "@chakra-ui/react";
 import ClientLoginModal from "@/components/ClientLoginModal";
@@ -92,13 +92,15 @@ export default function PilketosPage() {
   return (
 		<main className="flex flex-col min-h-screen w-screen max-w-screen justify-center overflow-x-hidden">
 			<div className="block md:hidden">
-				<ClientLoginModal             
-					isOpen={isOpen}
-					onOpen={onOpen}
-					onClose={onClose} 
-					onLoginResult={handleLoginResult}
-					onLoginResultData={handleLoginResultdData}
-				/>
+				<Suspense fallback={<div>Loading...</div>}>
+					<ClientLoginModal             
+						isOpen={isOpen}
+						onOpen={onOpen}
+						onClose={onClose} 
+						onLoginResult={handleLoginResult}
+						onLoginResultData={handleLoginResultdData}
+					/>
+      	</Suspense>
 				<MenuNavigation title="Pencoblosan" />
 				<CandidatePage nis={nisClient} token_id={tokenIdClient!} candidatesData={candidatesData}/>
 			</div>
