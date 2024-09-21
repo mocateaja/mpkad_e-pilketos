@@ -26,11 +26,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
       const encrypted = await encrypt(result, SECRET_TOKEN!);
 
       if (decrypted.t === 'get') {
-        const filePath = path.join(process.cwd(), 'src/data.json'); 
+        //const filePath = path.join(process.cwd(), 'src/data.json'); 
 
         let existingData = [];
         try {
-          const fileContent = await fs.readFile(filePath, 'utf8');
+          const fileContent = await fs.readFile(process.cwd() +'/src/data.json/', 'utf8');
           existingData = JSON.parse(fileContent);
         } catch (err) {
           console.error('File tidak ditemukan, membuat file baru:', err);
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         existingData.push(result);
 
         try {
-          await fs.writeFile(filePath, JSON.stringify(existingData, null, 2), 'utf8');
+          await fs.writeFile(process.cwd() +'/src/data.json/', JSON.stringify(existingData, null, 2), 'utf8');
           console.log('Data berhasil ditulis ke file JSON.');
         } catch (err) {
           console.error('Gagal menulis ke file JSON:', err);
