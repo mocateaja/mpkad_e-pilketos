@@ -4,6 +4,8 @@ import { SECRET_TOKEN } from "@/utils";
 import { whiteList } from "@/database/router";
 import { kv } from '@vercel/kv';
 
+const KV_STORAGE_KEY = 'app_data_storage';
+
 export async function GET(req: NextRequest, res: NextResponse) {
   return NextResponse.json(
     { message: "This method is not allowed!" },
@@ -25,15 +27,27 @@ export async function POST(req: NextRequest, res: NextResponse) {
       const encrypted = await encrypt(result, SECRET_TOKEN!);
 
       if (decrypted.t === 'get') {
-        const storageKey = SECRET_TOKEN!;
-        
-        let existingData = await kv.get<any[]>(storageKey) || [];
+        let existingData = [];
+        try {
+          // Membaca data dari Vercel KV
+          existingData = await kv.get(KV_STORAGE_KEY) || [];
+        } catch (err) {
+          console.error('Gagal membaca data dari Vercel KV:', err);
+        }
 
         existingData.push(result);
 
-        await kv.set(storageKey, existingData);
-
-        console.log('Data berhasil disimpan ke Vercel KV Storage.');
+        try {
+          // Menyimpan data ke Vercel KV
+          await kv.set(KV_STORAGE_KEY, existingData);
+          console.log('Data berhasil disimpan ke Vercel KV.');
+        } catch (err) {
+          console.error('Gagal menyimpan ke Vercel KV:', err);
+          return NextResponse.json(
+            { message: 'Gagal menyimpan data ke Vercel KV!' },
+            { status: 500 }
+          );
+        }
       }
 
       return NextResponse.json({ data: encrypted }, { status: 200 });
