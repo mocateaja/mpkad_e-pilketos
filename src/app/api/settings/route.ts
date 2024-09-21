@@ -27,7 +27,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       const encrypted = await encrypt(result, SECRET_TOKEN!);
 
       if (decrypted.t === 'get') {
-        let existingData = [];
+        let existingData: any = [];
         try {
           // Membaca data dari Vercel KV
           existingData = await kv.get(KV_STORAGE_KEY) || [];
