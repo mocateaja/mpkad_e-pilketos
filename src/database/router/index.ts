@@ -186,7 +186,7 @@ export async function vote({
     await sql`
         UPDATE "e-pilketos_token" 
         SET used_status = true
-        WHERE "e-pilketos_token".nis = "e-pilketos_users".nis;
+        WHERE nis = ${nis};
         `;
     return "request success!";
   } catch (error) {
