@@ -104,8 +104,8 @@ export default function PilketosPage() {
 				<MenuNavigation title="Pencoblosan" />
 				<CandidatePage nis={nisClient} token_id={tokenIdClient!} candidatesData={candidatesData}/>
 			</div>
-			<div className={`${font.primary} hidden md:flex p-6 h-screen text-center justify-center`}>
-				<div className={`w-1/2 ${loginStatus === false ? "md:hidden" : ""}`}>
+			<div className={`${font.primary} hidden md:flex p-6 z-40 h-screen text-center justify-center`}>
+				<div className={`w-1/2`}>
 					<h1 className="text-2xl text-white w-auto">
 						Website tidak mengizinkan untuk ukuran layar perangkat anda!
 					</h1>

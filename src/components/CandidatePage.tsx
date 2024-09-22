@@ -121,9 +121,7 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 						<h3 className="py-2 mt-2 text-lg font-semibold select-none">
 							Misi
 						</h3>
-						<p className="text-justify select-none leading-normal">
-							{candidateData[reviewCandidate-1] && candidateData[reviewCandidate-1].mission}
-						</p>
+						<p dangerouslySetInnerHTML={{ __html: (candidateData[reviewCandidate-1] ? candidateData[reviewCandidate-1].mission : null)!}} className="text-justify select-none leading-normal"></p>
 					</div>
 				)
 			case "name":
@@ -155,9 +153,7 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 		}
 	}
 
-	const formatDataToArray = (data: string): string[] => {
-		return data.split(/\d+\.\s+/).filter(item => item.trim() !== "");
-	};
+	// Due to the limit of time to make this so i make static link for the formal image of the candidates
 
   return (
     <div className={`${font.primary} flex flex-col min-h-screen min-w-screen h-full items-center justify-start text-white`}>

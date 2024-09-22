@@ -1,6 +1,5 @@
 import font from "@/utils/Font"
-import mpk_logo from "@/asset/svg/mpk.svg";
-import sman_logo from "@/asset/svg/sman1maos.svg";
+
 import Image from "next/image";
 
 const Footer = () => {
@@ -14,24 +13,24 @@ const Footer = () => {
             <div className="md:hidden">
               <h2 className="text-lg font-semibold flex gap-2">
                 <Image
-                  src={sman_logo}
+                  src={"/image/sman1maos.svg"}
                   height={50}
                   width={50}
                   alt="Logo SMAN 1 Maos"
                 />
-                <Image src={mpk_logo} height={50} width={50} alt="Logo MPK" />
+                <Image src={"/image/mpk.svg"} height={50} width={50} alt="Logo MPK" />
               </h2>
             </div>
             <div>
               <div className="hidden md:block mb-4">
                 <h2 className="text-lg font-semibold flex gap-2">
                   <Image
-                    src={sman_logo}
+                    src={"/image/sman1maos.svg"}
                     height={50}
                     width={50}
                     alt="Logo SMAN 1 Maos"
                   />
-                  <Image src={mpk_logo} height={50} width={50} alt="Logo MPK" />
+                  <Image src={"/image/mpk.svg"} height={50} width={50} alt="Logo MPK" />
                 </h2>
               </div>
               <h2 className="text-lg font-semibold mb-2">Tentang Kami</h2>
