@@ -91,7 +91,7 @@ export default function PilketosPage() {
 	
   return (
 		<main className="flex flex-col min-h-screen w-screen max-w-screen justify-center overflow-x-hidden">
-			<div className="block md:hidden">
+			<div className="block md:hidden h-auto">
 				<Suspense fallback={<div>Loading...</div>}>
 					<ClientLoginModal             
 						isOpen={isOpen}
