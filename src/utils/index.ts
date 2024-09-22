@@ -73,7 +73,7 @@ export const localStorage = new LocalStorage()
 export const secureTheWeb = async(router: any) => {
   const userIP = await getIPAddress()
   const whiteListIP = await whiteList.get()
-  if (whiteListIP.some((item: any) => item.ipaddress === userIP)) {
+  if (whiteListIP.length > 0 && whiteListIP.some((item: any) => item.ipaddress === userIP)) {
     return null
   } else { 
     router.push("/blocked")

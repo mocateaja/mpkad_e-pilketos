@@ -1,7 +1,10 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from 'react';
 import { getCandidatesRecaptulation } from '@/utils';
+import { Button } from '@chakra-ui/react';
+import font from '@/utils/Font';
 
 type CandidateData = {
   id: number;
@@ -118,7 +121,7 @@ const RecapitulationCharts = () => {
         breakpoint: 420,
         options: {
             chart: {
-              width: "100%",
+              width: "120%",
               type: 'bar',
               animations: {
                 enabled: true,
@@ -320,6 +323,8 @@ const RecapitulationCharts = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [candidates]);
 
+  const [recapStatus, setRecapStatus] = useState<boolean>(false) // default false
+
   const DigitalRecapitulation = () => (
     <div className="hidden lg:flex justify-center h-64 -mt-3 w-full p-10 gap-4">
       {candidates.sort((a, b) => a.id - b.id).map((data) => (
@@ -335,7 +340,30 @@ const RecapitulationCharts = () => {
     <div className="flex flex-col w-full h-full items-center justify-center">
       <div id="mitratama-chart" className="mb-8" />
       <div id="mitramuda-chart" className="mb-8" />
-      <DigitalRecapitulation />
+      <div className="w-full h-auto hidden md:flex justify-center">
+        <Button 
+          bg={"white"}
+          className={`${font.primary}`}
+          onClick={()=>setRecapStatus(!recapStatus)}
+        >
+          {recapStatus ? "Open Recapitulation" : "Close Recapitulation"}
+        </Button>
+      </div>
+      {recapStatus ? (
+        <AnimatePresence>
+          <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 100 }}
+          exit={{ opacity: 0 }}
+          transition={{ ease: "easeInOut", duration: 0.5 }}
+          className="w-full h-auto flex justify-center"
+          >
+            <DigitalRecapitulation />
+          </motion.div>
+        </AnimatePresence>
+      ) : (
+        null
+      )}
     </div>
   );
 };

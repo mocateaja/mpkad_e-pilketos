@@ -20,6 +20,9 @@ const SummarySection: React.FC = () => {
           <p className="text-3xl font-bold mt-2">{item.value}</p>
         </div>
       ))}
+      <div className="w-full flex justify-center col-span-3 bg-gray-100 p-2 rounded shadow">
+        <p>Will be released on v.0.9.6</p>
+      </div>
     </div>
   );
 };

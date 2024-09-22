@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { getUsersData } from '@/utils';
 import { useRouter } from 'next/navigation';
-import { HiKey } from "react-icons/hi2";
+import { HiKey, HiMiniMagnifyingGlass  } from "react-icons/hi2";
 import QrCode from '@/components/QRCode';
 import { FiRotateCcw } from "react-icons/fi";
 
@@ -22,9 +22,6 @@ interface User {
   name: string;
   class: string;
   token: string;
-  vote_status: boolean;
-  vote_one: number;
-  vote_two: number;
 }
 
 const UsersDataTable: React.FC = () => {
@@ -45,7 +42,7 @@ const UsersDataTable: React.FC = () => {
     setSearchTerm(event.target.value);
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = async() => {
     try {
       const data = await getUsersData("");
       if (data === null || data === "failed") {
@@ -58,6 +55,19 @@ const UsersDataTable: React.FC = () => {
       console.error(error);
     }
   };
+
+  const fetchSearch = async() => {
+    try {
+      const data = await getUsersData(searchTerm);
+      if (data === null || data === "failed") {
+        alert("Terjadi kesalahan. Gagal mencari data!");
+      } else {
+        setUserData(data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
     fetchData();
@@ -77,6 +87,7 @@ const UsersDataTable: React.FC = () => {
             onChange={handleSearchChange}
           />
           <IconButton onClick={fetchData} icon={<FiRotateCcw className='bg-white w-full h-full p-2 rounded-lg'/>} className="bg-white flex" aria-label={''}/>
+          <IconButton onClick={fetchSearch} icon={<HiMiniMagnifyingGlass  className='bg-white w-full h-full p-2 rounded-lg'/>} className="bg-white flex" aria-label={''}/>
         </div>
       </div>
       <table className="w-full border-collapse">

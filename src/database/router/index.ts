@@ -11,64 +11,48 @@ import CryptoJS from "crypto-js";
     Done
 */
 
-export async function getUsersData({ key }: { [key: string]: string }) {
+export async function getUsersData({ key }: { key?: string }) {
   try {
-    if (key !== "") {
-      const result = await sql`
-            SELECT
-                "e-pilketos_users".id,
-                "e-pilketos_users".nis,
-                "e-pilketos_users".name,
-                "e-pilketos_users".class,
-                "e-pilketos_users".vote_status,
-                "e-pilketos_users".vote_one,
-                "e-pilketos_users".vote_two,
-                "e-pilketos_token".token
-            FROM
-                "e-pilketos_users"
-                INNER JOIN "e-pilketos_token" on "e-pilketos_users".nis = "e-pilketos_token".nis
-            WHERE
-                "e-pilketos_users".nis like '%${key}%'
-                OR "e-pilketos_users".name like '%${key}%'
-            GROUP BY 
-                "e-pilketos_users".id,
-                "e-pilketos_users".nis,
-                "e-pilketos_users".name,
-                "e-pilketos_users".class,
-                "e-pilketos_users".vote_status,
-                "e-pilketos_users".vote_one,
-                "e-pilketos_users".vote_two,
-                "e-pilketos_token".token
-            LIMIT 20;
-            `;
-      return result;
+    let query;
+    if (key && key.trim() !== "") {
+      key.toLowerCase()
+      const searchPattern = `%${key}%`;
+      query = sql`
+        SELECT
+          "e-pilketos_users".id,
+          "e-pilketos_users".nis,
+          "e-pilketos_users".name,
+          "e-pilketos_users".class,
+          "e-pilketos_token".token
+        FROM
+          "e-pilketos_users"
+          INNER JOIN "e-pilketos_token" ON "e-pilketos_users".nis = "e-pilketos_token".nis
+        WHERE
+          LOWER("e-pilketos_users".nis) LIKE ${searchPattern}
+          OR LOWER("e-pilketos_users".name) LIKE ${searchPattern}
+        ORDER BY 
+          "e-pilketos_users".id
+        LIMIT 20
+      `;
     } else {
-      const result = await sql`
-            SELECT
-                "e-pilketos_users".id,
-                "e-pilketos_users".nis,
-                "e-pilketos_users".name,
-                "e-pilketos_users".class,
-                "e-pilketos_users".vote_status,
-                "e-pilketos_users".vote_one,
-                "e-pilketos_users".vote_two,
-                "e-pilketos_token".token
-            FROM
-                "e-pilketos_users"
-                INNER JOIN "e-pilketos_token" on "e-pilketos_users".nis = "e-pilketos_token".nis
-            GROUP BY 
-                "e-pilketos_users".id,
-                "e-pilketos_users".nis,
-                "e-pilketos_users".name,
-                "e-pilketos_users".class,
-                "e-pilketos_users".vote_status,
-                "e-pilketos_users".vote_one,
-                "e-pilketos_users".vote_two,
-                "e-pilketos_token".token
-            LIMIT 20;
-            `;
-      return result;
+      query = sql`
+        SELECT
+          u.id,
+          u.nis,
+          u.name,
+          u.class,
+          t.token
+        FROM
+          "e-pilketos_users" u
+          INNER JOIN "e-pilketos_token" t ON u.nis = t.nis
+        ORDER BY 
+          u.id
+        LIMIT 20
+      `;
     }
+
+    const result = await query;
+    return result;
   } catch (error) {
     console.error(error);
   }
