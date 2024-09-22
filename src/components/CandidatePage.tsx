@@ -251,8 +251,13 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 								onClick={() => setMitratama(1)}
 								className={`grow flex justify-start items-end bg-white h-40 rounded duration-100 ${mitratama===1?"rounded-md border-4 border-solid border-[#6897BB]":""}`}
 							>
-								<div className="grow w-full h-full">
-
+								<div className="relative w-full h-full">
+									<Image 
+									src={"/image/kukuh.png"} 
+									layout="fill"
+									quality={100}
+									objectFit="cover" 
+									alt='Candidate Image'/> 
 								</div>
 								<div className="absolute">
 									<div className={`w-full h-full flex justify-center items-end bottom-0 py-2 px-3 bg-[rgba(155,150,169,0.8)] rounded-tr-lg ${mitratama===1?"bg-[rgb(104,151,187)]":""}`}>
@@ -268,7 +273,14 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 								className={`grow flex justify-start items-end bg-white h-40 rounded duration-100 ${mitratama===2?"rounded-md border-4 border-solid border-[#6897BB]":""}`}
 							>
 								<div className="grow w-full h-full">
-
+									<div className="relative w-full h-full">
+										<Image 
+										src={"/image/afif.png"} 
+										layout="fill"
+										quality={100}
+										objectFit="cover" 
+										alt='Candidate Image'/> 
+									</div>
 								</div>
 								<div className="absolute">
 									<div className={`w-full h-full flex justify-center items-end bottom-0 py-2 px-3 bg-[rgba(155,150,169,0.8)] rounded-tr-lg ${mitratama===2?"bg-[rgb(104,151,187)]":""}`}>
@@ -284,7 +296,14 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 							 className={`grow flex justify-start items-end bg-white h-40 rounded duration-100 ${mitratama===3?"rounded-md border-4 border-solid border-[#6897BB]":""}`}
 							>
 								<div className="grow w-full h-full">
-
+									<div className="relative w-full h-full">
+										<Image 
+										src={"/image/zahran.png"} 
+										layout="fill"
+										quality={100}
+										objectFit="cover" 
+										alt='Candidate Image'/> 
+									</div>
 								</div>
 								<div className="absolute">
 									<div className={`w-full h-full flex justify-center items-end bottom-0 py-2 px-3 bg-[rgba(155,150,169,0.8)] rounded-tr-lg ${mitratama===3?"bg-[rgb(104,151,187)]":""}`}>
@@ -309,7 +328,14 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 								className={`grow flex justify-start items-end bg-white h-40 rounded duration-100 ${mitramuda===4?"rounded-md border-4 border-solid border-[#6897BB]":""}`}
 							>
 								<div className="grow w-full h-full">
-
+									<div className="relative w-full h-full">
+										<Image 
+										src={"/image/syahril.png"} 
+										layout="fill"
+										quality={100}
+										objectFit="cover" 
+										alt='Candidate Image'/> 
+									</div>
 								</div>
 								<div className="absolute">
 									<div className={`w-full h-full flex justify-center items-end bottom-0 py-2 px-3 bg-[rgba(155,150,169,0.8)] rounded-tr-lg ${mitramuda===4?"bg-[rgb(104,151,187)]":""}`}>
@@ -325,7 +351,14 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 								className={`grow flex justify-start items-end bg-white h-40 rounded duration-100 ${mitramuda===5?"rounded-md border-4 border-solid border-[#6897BB]":""}`}
 							>
 								<div className="grow w-full h-full">
-
+									<div className="relative w-full h-full">
+										<Image 
+										src={"/image/iftitah.png"} 
+										layout="fill"
+										quality={100}
+										objectFit="cover" 
+										alt='Candidate Image'/> 
+									</div>
 								</div>
 								<div className="absolute">
 									<div className={`w-full h-full flex justify-center items-end bottom-0 py-2 px-3 bg-[rgba(155,150,169,0.8)] rounded-tr-lg ${mitramuda===5?"bg-[rgb(104,151,187)]":""}`}>
@@ -341,7 +374,14 @@ const CandidatePage: React.FC<CandidatePageProps> = ({ nis, token_id, candidates
 								className={`grow flex justify-start items-end bg-white h-40 rounded duration-100 ${mitramuda===6?"rounded-md border-4 border-solid border-[#6897BB]":""}`}
 							>
 								<div className="grow w-full h-full">
-
+									<div className="relative w-full h-full">
+										<Image 
+										src={"/image/esti.png"} 
+										layout="fill"
+										quality={100}
+										objectFit="cover" 
+										alt='Candidate Image'/> 
+									</div>
 								</div>
 								<div className="absolute">
 									<div className={`w-full h-full flex justify-center items-end bottom-0 py-2 px-3 bg-[rgba(155,150,169,0.8)] rounded-tr-lg ${mitramuda===6?"bg-[rgb(104,151,187)]":""}`}>
