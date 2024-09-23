@@ -16,7 +16,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { clientVoting } from "@/utils";
+import { clientVoting, localStorage } from "@/utils";
 import LoadingAnimation from "@/components/LoadingAnimation";
 
 type CandidateData = {
@@ -70,7 +70,17 @@ const CandidatePage: React.FC<CandidatePageProps> = ({
     setError("");
     if (mitratama === 0 || mitramuda === 0) {
       setError("Silahkan pilih kandidat terlebih dahulu!");
-    } else {
+    } else if (voteStatus) {
+      onClose();
+      toast({
+        position: "top",
+        title: "Error!",
+        description: `Anda sudah mencoblos dan tidak dapat mencoblos ulang!`,
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+      });
+    } else if (!voteStatus) {
       const voteResult = await clientVoting(
         nis,
         mitratama,
@@ -79,20 +89,30 @@ const CandidatePage: React.FC<CandidatePageProps> = ({
       );
       if (voteResult == "request failed!") {
         setError("Gagal mengirim permintaan!");
+        onClose();
+        toast({
+          position: "top",
+          title: "Error, gagal mencoblos!",
+          description: `Silahkan cek ulang koneksi atau login ulang!`,
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+        });
       } else if (voteResult == "request success!") {
+        onClose();
         setVoteStatus(true);
         toast({
           position: "top",
           title: "Berhasil mencoblos!",
           description: `Silahkan lanjutkan prosedur setelah pencoblosan`,
           status: "success",
-          duration: 3000,
+          duration: 4000,
           isClosable: true,
         });
-        onClose();
+        localStorage.set("verification_id", `${nis}${mitratama}${mitramuda}${token_id}`)
         setTimeout(() => {
-          router.push("/");
-        }, 10000);
+          router.push(`/id/${nis}${mitratama}${mitramuda}${token_id}`);
+        }, 6000);
       }
     }
   };

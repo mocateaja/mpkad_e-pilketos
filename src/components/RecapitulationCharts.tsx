@@ -340,13 +340,13 @@ const RecapitulationCharts = () => {
     <div className="flex flex-col w-full h-full items-center justify-center">
       <div id="mitratama-chart" className="mb-8" />
       <div id="mitramuda-chart" className="mb-8" />
-      <div className="w-full h-auto hidden md:flex justify-center">
+      <div className="w-full h-auto hidden lg:flex justify-center">
         <Button 
           bg={"white"}
           className={`${font.primary}`}
           onClick={()=>setRecapStatus(!recapStatus)}
         >
-          {recapStatus ? "Open Recapitulation" : "Close Recapitulation"}
+          {recapStatus ? "Close Recapitulation" : "Open Recapitulation"}
         </Button>
       </div>
       {recapStatus ? (

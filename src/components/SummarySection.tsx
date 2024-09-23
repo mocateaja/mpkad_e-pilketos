@@ -1,27 +1,40 @@
-import React from 'react';
-
-interface SummaryItem {
-  title: string;
-  value: number;
-}
+import { getVotesInformation } from '@/utils';
+import React, { useEffect, useState } from 'react';
 
 const SummarySection: React.FC = () => {
-  const summaryData: SummaryItem[] = [
-    { title: 'Kloter Tersisa', value: 3 },
-    { title: 'Total Suara Masuk', value: 200 },
-    { title: 'Total Suara Tersisa', value: 785 },
-  ];
+  const [votesIn, setVotesIn] = useState(0) // Default 0
+  const [votesRemain, setVotesRemain] = useState(0) // Default 0
+
+  const fetchData = async() => {
+    try {
+      const data = await getVotesInformation();
+      if (data === null || data === "failed") {
+        alert("Terjadi kesalahan. Refresh ulang halaman dan cek koneksi!");
+        
+      } else {
+        setVotesIn(data?.in)
+        setVotesRemain(data?.remain)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {summaryData.map((item, index) => (
-        <div key={index} className="bg-gray-100 p-4 rounded shadow">
-          <h3 className="text-lg font-semibold">{item.title}</h3>
-          <p className="text-3xl font-bold mt-2">{item.value}</p>
+    <div className="">
+      <div className="w-full flex justify-between gap-4">
+        <div className="bg-gray-100 p-4 rounded shadow grow">
+          <h3 className="text-lg font-semibold">Total Suara Masuk</h3>
+          <p className="text-3xl font-bold mt-2"></p>
         </div>
-      ))}
-      <div className="w-full flex justify-center col-span-3 bg-gray-100 p-2 rounded shadow">
-        <p>Will be released on v.0.9.6</p>
+        <div className="bg-gray-100 p-4 rounded shadow grow">
+          <h3 className="text-lg font-semibold">Total Suara Tersisa</h3>
+          <p className="text-3xl font-bold mt-2"></p>
+        </div>
       </div>
     </div>
   );

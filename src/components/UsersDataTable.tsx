@@ -58,7 +58,7 @@ const UsersDataTable: React.FC = () => {
 
   const fetchSearch = async() => {
     try {
-      const data = await getUsersData(searchTerm);
+      const data = await getUsersData(searchTerm.toLowerCase());
       if (data === null || data === "failed") {
         alert("Terjadi kesalahan. Gagal mencari data!");
       } else {

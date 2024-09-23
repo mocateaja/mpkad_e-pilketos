@@ -11,6 +11,29 @@ import CryptoJS from "crypto-js";
     Done
 */
 
+export async function getVotesInformation() {
+  try {
+    const total_votes_in = await sql`
+          SELECT COUNT(*) as total
+          FROM "e-pilketos_users"
+          WHERE vote_status = TRUE;
+        `;
+    const total_votes_remain = await sql`
+          SELECT COUNT(*) as total
+          FROM "e-pilketos_users"
+          WHERE vote_status = FALSE;
+    `;
+    console.log(total_votes_in)
+    const data = {
+      in: total_votes_in[0].total,
+      remain: total_votes_remain[0].total
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function getUsersData({ key }: { key?: string }) {
   try {
     let query;

@@ -73,8 +73,12 @@ export const localStorage = new LocalStorage()
 export const secureTheWeb = async(router: any) => {
   const userIP = await getIPAddress()
   const whiteListIP = await whiteList.get()
-  if (whiteListIP.length > 0 && whiteListIP.some((item: any) => item.ipaddress === userIP)) {
-    return null
+  if (whiteListIP.length > 0) {
+    if (whiteListIP.some((item: any) => item.ipaddress === userIP)) {
+      return null
+    } else {
+      router.push("/blocked")
+    }
   } else { 
     router.push("/blocked")
   }
@@ -90,6 +94,22 @@ export async function getIPAddress() {
     })
     const result = await response.json()
     return result.ip
+  } catch (error) {
+    console.log(error) // If the development is done let's replace this line of code
+  }
+}
+
+export async function getVotesInformation() {
+  try {
+    const response = await fetch("/api/get_votes_information", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+    const result = await response.json()
+    const decrypted = await decrypt(result.data, SECRET_TOKEN!)
+    return decrypted
   } catch (error) {
     console.log(error) // If the development is done let's replace this line of code
   }
