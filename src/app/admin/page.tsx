@@ -20,7 +20,7 @@ const DynamicComponentWithNoSSR_UsersDataTable = dynamic(
 
 export default function AdminPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [loginStatus, setLoginStatus] = useState<boolean>(true); // Default false
+  const [loginStatus, setLoginStatus] = useState<boolean>(false); // Default false
 
   useEffect(() => {
     loginStatus ? null : onOpen();
