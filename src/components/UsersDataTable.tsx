@@ -29,6 +29,7 @@ const UsersDataTable: React.FC = () => {
   const [userData, setUserData] = useState<User[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [onRequest, setOnRequest] = useState<boolean>(false) // Default false
+  const [onRequest_two, setOnRequest_two] = useState<boolean>(false) // Default false
 
   const filteredUsers = useCallback(() => 
     userData.filter(user =>
@@ -44,12 +45,15 @@ const UsersDataTable: React.FC = () => {
   }, []);
 
   const fetchData = async() => {
+    setOnRequest_two(true)
     try {
       const data = await getUsersData("");
       if (data === null || data === "failed") {
+        setOnRequest_two(false)
         alert("Terjadi kesalahan. Refresh ulang halaman dan cek koneksi!");
         router.push("/admin");
       } else {
+        setOnRequest_two(false)
         setUserData(data);
       }
     } catch (error) {
@@ -90,7 +94,7 @@ const UsersDataTable: React.FC = () => {
             className="w-full p-2 border rounded"
             onChange={handleSearchChange}
           />
-          <IconButton onClick={fetchData} icon={<FiRotateCcw className='bg-white w-full h-full p-2 rounded-lg'/>} className="bg-white flex" aria-label={''}/>
+          <IconButton isLoading={onRequest_two} onClick={fetchData} icon={<FiRotateCcw className='bg-white w-full h-full p-2 rounded-lg'/>} className="bg-white flex" aria-label={''}/>
           <IconButton isLoading={onRequest} onClick={fetchSearch} icon={<HiMiniMagnifyingGlass  className='bg-white w-full h-full p-2 rounded-lg'/>} className="bg-white flex" aria-label={''}/>
         </div>
       </div>
