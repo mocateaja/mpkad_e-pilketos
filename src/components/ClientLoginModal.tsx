@@ -42,6 +42,7 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
   const [nisInputValue, setNisInputValue] = useState<string>("");
   const [tokenInputValue, setTokenInputValue] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [onRequest, setOnRequest] = useState<boolean>(false) // Default false
 
   const handleChangeNisInputValue = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -51,6 +52,7 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
   ) => setTokenInputValue(event.target.value);
 
   const loginClient = async() => {
+    setOnRequest(true)
 		setError("");
     const loginResult: ClientData[] = await clientLogin(nisInputValue, tokenInputValue);
     
@@ -58,19 +60,23 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
       if (loginResult.length > 0) {
 				const d = loginResult[0]
 				if (d.vote_status === true) {
+          setOnRequest(false)
 					onLoginResult(false);
 					setError("Akun ini sudah digunakan untuk mencoblos!")
 				} else {
+          setOnRequest(false)
           onLoginResultData(d.id,d.nis,d.name,d.class,d.vote_status,d.token_id)
           onClose();
         }
 				setNisInputValue("");
 				setTokenInputValue("");
 			} else {
+        setOnRequest(false)
 				onLoginResult(false);
 				setError("NIS atau Token salah!");
 			}
     } else {
+      setOnRequest(false)
       onLoginResult(false);
       setError("Kesalahan jaringan!");
     }
@@ -157,6 +163,7 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
               onClick={async() => await loginClient()}
               colorScheme="blue"
               mr={3}
+              isLoading={onRequest}
             >
               Login
             </Button>

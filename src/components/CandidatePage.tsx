@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { clientVoting, localStorage } from "@/utils";
 import LoadingAnimation from "@/components/LoadingAnimation";
+import { truncateSync } from "node:fs";
 
 type CandidateData = {
   id: number;
@@ -52,6 +53,7 @@ const CandidatePage: React.FC<CandidatePageProps> = ({
   const [error, setError] = useState<string>("");
   const [voteStatus, setVoteStatus] = useState<boolean>(false);
   const cancelRef = useRef(null);
+  const [onRequest, setOnRequest] = useState<boolean>(false) // Default false
 
   const scrollToTop = () => {
     if (typeof window !== "undefined") {
@@ -67,10 +69,13 @@ const CandidatePage: React.FC<CandidatePageProps> = ({
   }
 
   const vote = async () => {
+    setOnRequest(true)
     setError("");
     if (mitratama === 0 || mitramuda === 0) {
+      setOnRequest(false)
       setError("Silahkan pilih kandidat terlebih dahulu!");
     } else if (voteStatus) {
+      setOnRequest(false)
       onClose();
       toast({
         position: "top",
@@ -88,6 +93,7 @@ const CandidatePage: React.FC<CandidatePageProps> = ({
         token_id
       );
       if (voteResult == "request failed!") {
+        setOnRequest(false)
         setError("Gagal mengirim permintaan!");
         onClose();
         toast({
@@ -99,6 +105,7 @@ const CandidatePage: React.FC<CandidatePageProps> = ({
           isClosable: true,
         });
       } else if (voteResult == "request success!") {
+        setOnRequest(false)
         onClose();
         setVoteStatus(true);
         toast({
@@ -557,7 +564,7 @@ const CandidatePage: React.FC<CandidatePageProps> = ({
                 >
                   Kembali
                 </Button>
-                <Button bg={"white"} onClick={onOpen} disabled={voteStatus}>
+                <Button bg={"white"} onClick={onOpen} disabled={voteStatus} isLoading={onRequest}>
                   Submit
                 </Button>
               </div>

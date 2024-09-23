@@ -28,6 +28,7 @@ const UsersDataTable: React.FC = () => {
   const router = useRouter();
   const [userData, setUserData] = useState<User[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [onRequest, setOnRequest] = useState<boolean>(false) // Default false
 
   const filteredUsers = useCallback(() => 
     userData.filter(user =>
@@ -58,10 +59,13 @@ const UsersDataTable: React.FC = () => {
 
   const fetchSearch = async() => {
     try {
+      setOnRequest(true)
       const data = await getUsersData(searchTerm.toLowerCase());
       if (data === null || data === "failed") {
+        setOnRequest(false)
         alert("Terjadi kesalahan. Gagal mencari data!");
       } else {
+        setOnRequest(false)
         setUserData(data);
       }
     } catch (error) {
@@ -87,7 +91,7 @@ const UsersDataTable: React.FC = () => {
             onChange={handleSearchChange}
           />
           <IconButton onClick={fetchData} icon={<FiRotateCcw className='bg-white w-full h-full p-2 rounded-lg'/>} className="bg-white flex" aria-label={''}/>
-          <IconButton onClick={fetchSearch} icon={<HiMiniMagnifyingGlass  className='bg-white w-full h-full p-2 rounded-lg'/>} className="bg-white flex" aria-label={''}/>
+          <IconButton isLoading={onRequest} onClick={fetchSearch} icon={<HiMiniMagnifyingGlass  className='bg-white w-full h-full p-2 rounded-lg'/>} className="bg-white flex" aria-label={''}/>
         </div>
       </div>
       <table className="w-full border-collapse">
