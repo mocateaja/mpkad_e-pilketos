@@ -68,7 +68,7 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
 				setTokenInputValue("");
 			} else {
 				onLoginResult(false);
-				setError("Nama Admin atau Password salah!");
+				setError("NIS atau Token salah!");
 			}
     } else {
       onLoginResult(false);
