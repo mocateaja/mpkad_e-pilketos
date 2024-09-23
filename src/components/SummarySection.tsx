@@ -29,11 +29,11 @@ const SummarySection: React.FC = () => {
       <div className="w-full flex justify-between gap-4">
         <div className="bg-gray-100 p-4 rounded shadow grow">
           <h3 className="text-lg font-semibold">Total Suara Masuk</h3>
-          <p className="text-3xl font-bold mt-2"></p>
+          <p className="text-3xl font-bold mt-2">{votesIn}</p>
         </div>
         <div className="bg-gray-100 p-4 rounded shadow grow">
           <h3 className="text-lg font-semibold">Total Suara Tersisa</h3>
-          <p className="text-3xl font-bold mt-2"></p>
+          <p className="text-3xl font-bold mt-2">{votesRemain}</p>
         </div>
       </div>
     </div>
