@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import QrCreator from 'qr-creator';
 import { encryptUserParams } from '@/utils';
@@ -16,7 +17,7 @@ const QrCode: React.FC<QrCodeProps> = ({ nis, token, identity }) => {
       try {
         const encryptedNis = await encryptUserParams(nis);
         const encryptedToken = await encryptUserParams(token);
-        const url = `http://192.168.1.70:3000/main?nis=${encryptedNis}&token=${encryptedToken}`;
+        const url = `https://smanji-e-pilketos.vercel.app/main?nis=${encryptedNis}&token=${encryptedToken}`;
         setQrUrl(url);
       } catch (error) {
         console.error('Error encrypting parameters:', error);
