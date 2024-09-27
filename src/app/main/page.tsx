@@ -61,7 +61,7 @@ export default function PilketosPage() {
 		toast({
       position: "top",
       title: "Login berhasil!",
-      description: `Anda login sebagai ${name} dengan NIS ${nis}`,
+      description: `Anda login sebagai ${name} dengan ID ${nis}`,
       status: "info",
       duration: 3000,
       isClosable: true,
