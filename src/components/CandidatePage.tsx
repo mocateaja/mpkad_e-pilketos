@@ -604,6 +604,7 @@ const CandidatePage: React.FC<CandidatePageProps> = ({
               onClick={vote}
               colorScheme="blue"
               ml={3}
+              isLoading={onRequest}
             >
               Ya
             </Button>

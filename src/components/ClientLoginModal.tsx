@@ -8,11 +8,27 @@ import {
   ModalOverlay,
   Input,
   VStack,
+  IconButton,
+  HStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import font from "@/utils/Font";
 import { clientLogin, parseUserParams } from "@/utils";
 import { useSearchParams } from "next/navigation";
+import { FaQrcode } from "react-icons/fa6";
+/* 
+	IMPORTANT NOTE!
+	
+	Penggunaan NIS disini di artikan sebagai ID! Dapat NIP atau NIS sebab kurangnya perencanaan yang benar-benar
+	matang dalam membangun aplikasi ini jadi ada banyak kesahalahan yang kemungkinan di masa depan nanti harus di perbaiki
+	Untuk saat ini penulisan NIS digunakan juga untuk guru dan penamaannya diganti menjadi ID agar tidak membuat bingung
+	para karyawan dan juga guru serta murid yang ada di SMANJI.
+	Perubahan data dan juga penamaan dapat dilakukan namun hal ini membutuhkan waktu yang lama sedangkan hari H sudah dekat
+	dan juga perubahan memerlukan ketelitian yang tinggi.
+	Itu saja dan ingat catatan ini agar tidak lupa. Sekian terimakasih.
+	
+	29 September 2024
+*/
 
 interface ClientLoginModalProps {
   isOpen: boolean;
@@ -44,6 +60,10 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
   const [error, setError] = useState<string>("");
   const [onRequest, setOnRequest] = useState<boolean>(false) // Default false
 
+  function scanQrCode() {
+    
+  }
+
   const handleChangeNisInputValue = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => setNisInputValue(event.target.value);
@@ -73,7 +93,7 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
 			} else {
         setOnRequest(false)
 				onLoginResult(false);
-				setError("NIS atau Token salah!");
+				setError("ID atau Token salah!");
 			}
     } else {
       setOnRequest(false)
@@ -158,15 +178,21 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              className={`${font.primary}`}
-              onClick={async() => await loginClient()}
-              colorScheme="blue"
-              mr={3}
-              isLoading={onRequest}
-            >
-              Login
-            </Button>
+            <HStack gap={2}>
+              {/* 
+              Feature No Ready!
+              <IconButton onClick={()=>scanQrCode()} icon={<FaQrcode className='bg-transparent text-white w-full h-full p-2 rounded-lg'/>} className="flex" colorScheme="blue" aria-label={''}/>
+               */}
+              <Button
+                className={`${font.primary}`}
+                onClick={async() => await loginClient()}
+                colorScheme="blue"
+                mr={3}
+                isLoading={onRequest}
+              >
+                Login
+              </Button>
+            </HStack>
           </ModalFooter>
         </ModalContent>
       </Modal>

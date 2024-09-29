@@ -3,6 +3,20 @@ import sql from "../connection";
 import CryptoJS from "crypto-js";
 
 /* 
+	IMPORTANT NOTE!
+	
+	Penggunaan NIS disini di artikan sebagai ID! Dapat NIP atau NIS sebab kurangnya perencanaan yang benar-benar
+	matang dalam membangun aplikasi ini jadi ada banyak kesahalahan yang kemungkinan di masa depan nanti harus di perbaiki
+	Untuk saat ini penulisan NIS digunakan juga untuk guru dan penamaannya diganti menjadi ID agar tidak membuat bingung
+	para karyawan dan juga guru serta murid yang ada di SMANJI.
+	Perubahan data dan juga penamaan dapat dilakukan namun hal ini membutuhkan waktu yang lama sedangkan hari H sudah dekat
+	dan juga perubahan memerlukan ketelitian yang tinggi.
+	Itu saja dan ingat catatan ini agar tidak lupa. Sekian terimakasih.
+	
+	29 September 2024
+*/
+
+/* 
     Buat kode:
     1. Check token dan NIS untuk login ok
     2. Update data users ok
