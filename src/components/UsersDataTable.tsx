@@ -14,7 +14,6 @@ import { getUsersData } from '@/utils';
 import { useRouter } from 'next/navigation';
 import { HiKey, HiMiniMagnifyingGlass  } from "react-icons/hi2";
 import QrCode from '@/components/QRCode';
-import { FiRotateCcw } from "react-icons/fi";
 
 interface User {
   id: number;
@@ -94,7 +93,6 @@ const UsersDataTable: React.FC = () => {
             className="w-full p-2 border rounded"
             onChange={handleSearchChange}
           />
-          <IconButton isLoading={onRequest_two} onClick={fetchData} icon={<FiRotateCcw className='bg-white w-full h-full p-2 rounded-lg'/>} className="bg-white flex" aria-label={''}/>
           <IconButton isLoading={onRequest} onClick={fetchSearch} icon={<HiMiniMagnifyingGlass  className='bg-white w-full h-full p-2 rounded-lg'/>} className="bg-white flex" aria-label={''}/>
         </div>
       </div>
