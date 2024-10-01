@@ -26,7 +26,7 @@ export default function RecapitulationPage() {
 						{realCountStatus ? "Close Real Count" : "Open Real Count"}
 					</Button>
 					<h1 className={`${realCountStatus ? "" : "hidden"} text-5xl font-bold p-12 w-full flex justify-center text-center mt-12`}>Real Count</h1>
-					<div className={`${realCountStatus ? "" : "hidden"}`}>
+					<div className={`${realCountStatus ? "" : "hidden"} w-full flex items-center justify-center`}>
 						<RecapitulationCharts />
 					</div>
         </div>
