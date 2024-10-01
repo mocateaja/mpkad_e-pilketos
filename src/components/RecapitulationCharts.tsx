@@ -326,7 +326,7 @@ const RecapitulationCharts = () => {
   const [recapStatus, setRecapStatus] = useState<boolean>(false) // default false
 
   const DigitalRecapitulation = () => (
-    <div className="hidden lg:flex justify-center h-64 -mt-3 w-full p-10 gap-4">
+    <div className="hidden lg:flex justify-center h-64 mt-12 w-full p-10 gap-4">
       {candidates.sort((a, b) => a.id - b.id).map((data) => (
         <div key={data.id} className="flex justify-center w-full max-w-48 h-full">
           <h3 className="bg-white text-black absolute m-2 p-2 text-center rounded-xl text-sm lg:w-28 xl:w-36">{data.name}</h3>
@@ -343,7 +343,7 @@ const RecapitulationCharts = () => {
       <div className="w-full h-auto hidden lg:flex justify-center">
         <Button 
           bg={"white"}
-          className={`${font.primary}`}
+          className={`${font.primary} mt-14`}
           onClick={()=>setRecapStatus(!recapStatus)}
         >
           {recapStatus ? "Close Recapitulation" : "Open Recapitulation"}
