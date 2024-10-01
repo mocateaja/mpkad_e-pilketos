@@ -37,7 +37,7 @@ const QrCode: React.FC<QrCodeProps> = ({ nis, token, identity }) => {
           text: qrUrl,
           radius: 1,
           ecLevel: 'H',
-          fill: '#5C5470',
+          fill: '#000000',
           background: null,
           size: 192
         }, qrContainer);

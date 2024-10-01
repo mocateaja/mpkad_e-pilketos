@@ -14,7 +14,7 @@ import {
 import { useEffect, useState } from "react";
 import font from "@/utils/Font";
 import { clientLogin, parseUserParams } from "@/utils";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FaQrcode } from "react-icons/fa6";
 /* 
 	IMPORTANT NOTE!
@@ -59,6 +59,7 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
   const [tokenInputValue, setTokenInputValue] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [onRequest, setOnRequest] = useState<boolean>(false) // Default false
+  const router = useRouter()
 
   function scanQrCode() {
     
@@ -178,10 +179,19 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
           </ModalBody>
 
           <ModalFooter>
-            <HStack gap={2}>
+            <div className="flex w-full justify-between">
+              <Button
+                 className={`${font.primary}`}
+                 onClick={()=>router.back()}
+                 colorScheme="gray"
+                 mr={3}
+               >
+                 Kembali
+              </Button>
+              <HStack gap={2}>
               {/* 
-              Feature No Ready!
-              <IconButton onClick={()=>scanQrCode()} icon={<FaQrcode className='bg-transparent text-white w-full h-full p-2 rounded-lg'/>} className="flex" colorScheme="blue" aria-label={''}/>
+                Feature No Ready!
+                <IconButton onClick={()=>scanQrCode()} icon={<FaQrcode className='bg-transparent text-white w-full h-full p-2 rounded-lg'/>} className="flex" colorScheme="blue" aria-label={''}/>
                */}
               <Button
                 className={`${font.primary}`}
@@ -192,7 +202,8 @@ const ClientLoginModal: React.FC<ClientLoginModalProps> = ({
               >
                 Login
               </Button>
-            </HStack>
+              </HStack>
+            </div>
           </ModalFooter>
         </ModalContent>
       </Modal>

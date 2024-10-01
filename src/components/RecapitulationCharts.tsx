@@ -286,7 +286,7 @@ const RecapitulationCharts = () => {
     };
 
     fetchData();  // Fetch immediately on mount
-    const intervalId = setInterval(fetchData, 5000);  // Then every 5 seconds
+    const intervalId = setInterval(fetchData, 300000);  // Then every 5 seconds
 
     return () => clearInterval(intervalId);  // Clean up on unmount
   }, []);
@@ -338,8 +338,8 @@ const RecapitulationCharts = () => {
 
   return (
     <div className="flex flex-col w-full h-full items-center justify-center">
-      <div id="mitratama-chart" className="mb-8" />
-      <div id="mitramuda-chart" className="mb-8" />
+      <div id="mitratama-chart" className={`mb-8`} />
+      <div id="mitramuda-chart" className={`mb-8`} />
       <div className="w-full h-auto hidden lg:flex justify-center">
         <Button 
           bg={"white"}

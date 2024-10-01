@@ -38,27 +38,32 @@ const WhitelistIPTable: React.FC = () => {
   const { isOpen: isOpenAddModal, onOpen: onOpenAddModal, onClose: onCloseAddModal } = useDisclosure()
   const { isOpen: isOpenDeleteModal, onOpen: onOpenDeleteModal, onClose: onCloseDeleteModal } = useDisclosure()
   const [modalMessageValue, setModalMessageValue] = useState("")
+  const [onRequest, setOnRequest] = useState<boolean>(false) // Default false
 
   const [error, setError] = useState<string>("")
 
   const handleChangeValue = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value)
 
   async function addIP() {
+    setOnRequest(true)
     const result = await whiteList.new(value);
     result === "success" ? (async() => {
+      setOnRequest(false)
       onCloseAddModal()
       const data = await whiteList.get()
       setData(data)
-    })() : setError("Gagal menambahkan")
+    })() : setError("Gagal menambahkan"); setOnRequest(false)
   }
 
   async function deleteIP() {
+    setOnRequest(true)
     const result = await whiteList.delete(modalMessageValue);
     result === "success" ? (async() => {
+      setOnRequest(false)
       onCloseDeleteModal()
       const data = await whiteList.get()
       setData(data)
-    })() : setError("Gagal menghapus")
+    })() : setError("Gagal menghapus"); setOnRequest(false)
   }
 
   useEffect(() => {
@@ -122,7 +127,7 @@ const WhitelistIPTable: React.FC = () => {
             </ModalBody>
 
             <ModalFooter>
-            <Button onClick={addIP} className={`${font.primary}`} colorScheme='blue' mr={3}>
+            <Button onClick={addIP} className={`${font.primary}`} colorScheme='blue' mr={3} isLoading={onRequest}>
                 Add
             </Button>
             </ModalFooter>

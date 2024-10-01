@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 import { adminLogin } from "@/utils";
 import font from "@/utils/Font";
+import { useRouter } from "next/navigation";
 
 interface AdminLoginModalProps {
   isOpen: boolean;
@@ -29,17 +30,18 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
   const [adminName, setAdminName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string>("");
+  const router = useRouter()
 
   const handleChangeAdminName = (event: React.ChangeEvent<HTMLInputElement>) =>
     setAdminName(event.target.value);
   const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) =>
     setPassword(event.target.value);
 
-  const login = () => {
+  const login = async() => {
     setError("");
     const loginResult = adminLogin(adminName, password);
-    onLoginResult(loginResult!);
-    if (loginResult) {
+    onLoginResult(await loginResult!);
+    if (await loginResult) {
       setAdminName("");
       setPassword("");
       onClose();
@@ -83,14 +85,24 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
           </ModalBody>
 
           <ModalFooter>
-            <Button
+            <div className="flex w-full justify-between">
+              <Button
+                className={`${font.primary}`}
+                onClick={()=>router.back()}
+                colorScheme="gray"
+                mr={3}
+              >
+                Kembali
+              </Button>
+              <Button
               className={`${font.primary}`}
               onClick={login}
               colorScheme="blue"
               mr={3}
-            >
-              Login
-            </Button>
+              >
+                Login
+              </Button>
+            </div>
           </ModalFooter>
         </ModalContent>
       </Modal>

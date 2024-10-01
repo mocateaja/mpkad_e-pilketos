@@ -116,9 +116,9 @@ const CandidatePage: React.FC<CandidatePageProps> = ({
           duration: 4000,
           isClosable: true,
         });
-        localStorage.set("verification_id", `${nis}${mitratama}${mitramuda}${token_id}`)
+        localStorage.set("verification_id", `${nis}${token_id}`)
         setTimeout(() => {
-          router.push(`/id/${nis}${mitratama}${mitramuda}${token_id}`);
+          router.push(`/id/${nis}${token_id}`);
         }, 6000);
       }
     }
