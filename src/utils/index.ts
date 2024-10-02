@@ -342,8 +342,8 @@ export const getTimestamp = () => {
   return formattedTimestamp
 }
 
-export const adminLogin = async(name: string, password: string) => {
-  if (name === await decrypt(ADMIN, "Rekata") && password === await decrypt(ADMINPW, "Rekata")) {
+export const adminLogin = (name: string, password: string) => {
+  if (name === "Nekata" && password === "MPKAD") {
     return true
   } else return false
 }
