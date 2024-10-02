@@ -35,7 +35,7 @@ const Footer = () => {
               </div>
               <h2 className="text-lg font-semibold mb-2">Tentang Kami</h2>
               <p className="text-gray-400">
-                Kami adalah Organisasi MPK, Majelis Pewakilan Kelas organization yang berada di SMA Negeri 1
+                Kami adalah Organisasi MPK, Majelis Pewakilan Kelas yang berada di SMA Negeri 1
                 Maos.
               </p>
             </div>
@@ -43,7 +43,7 @@ const Footer = () => {
               <h2 className="text-lg font-semibold mb-2">Ikuti Kami</h2>
               <div className="flex space-x-2">
                 <a
-                  href=""
+                  href="https://www.instagram.com/mpk.sman1maos/"
                   target="_blank"
                   className="text-gray-400 hover:drop-shadow-main hover:text-white"
                 >
@@ -64,7 +64,7 @@ const Footer = () => {
                   Twitter
                 </a>
                 <a
-                  href=""
+                  href="https://www.youtube.com/@mpksmanegeri1maos"
                   target="_blank"
                   className="text-gray-400 hover:drop-shadow-main hover:text-white"
                 >
