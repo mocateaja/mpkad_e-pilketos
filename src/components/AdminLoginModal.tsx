@@ -40,7 +40,7 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
   const login = async() => {
     setError("");
     const loginResult = adminLogin(adminName, password);
-    onLoginResult(logiSnResult!);
+    onLoginResult(loginResult!);
     if (loginResult) {
       setAdminName("");
       setPassword("");
